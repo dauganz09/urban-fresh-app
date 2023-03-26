@@ -1,13 +1,13 @@
 import { ImageBackground, SafeAreaView, StyleSheet, Text, View,Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import landing from '../assets/images/landing-bg.jpg'
-import logoText  from '../assets/images/logo_text.png'
+import logoText  from '../assets/images/text-logo-white.png'
 import fb from '../assets/images/fb.png'
 import google from '../assets/images/google.png'
 import twitter from '../assets/images/twitter.png'
 
 
-const Landing = () => {
+const Landing = ({navigation}) => {
   return (
     <ImageBackground
         source={{
@@ -22,17 +22,17 @@ const Landing = () => {
             <Image
                 source={{uri : logoText}}
                 style={{
-                    width : 200,
-                    height : 100,
+                    width : 300,
+                    height : 200,
                    
                    
                 }}
             />
             <View  style={styles.btnBox}>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity onPress={()=>navigation.navigate('RegisterPanel')}  style={styles.btn}>
                     <Text style={styles.btnText}>Sign up</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity onPress={()=>navigation.navigate('Login')} style={styles.btn}>
                     <Text style={styles.btnText}>Log in</Text>
                 </TouchableOpacity>
                 <View style={styles.socialBtns}>

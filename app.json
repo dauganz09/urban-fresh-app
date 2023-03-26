@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "caring-store-app",
-    "slug": "caring-store-app",
+    "name": "urban-fresh-app",
+    "slug": "urban-fresh-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,7 +26,7 @@
         "foregroundImage": "./assets/logo_caring.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.caringstoreapp"
+      "package": "com.urbanfreshapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

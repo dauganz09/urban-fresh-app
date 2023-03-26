@@ -9,6 +9,10 @@ import { ToastProvider } from 'react-native-toast-notifications'
 import Splash from './screens/Splash';
 import Loading from './screens/Loading';
 import Landing from './screens/Landing';
+import RegisterPanel from './screens/RegisterPanel';
+import BuyerRegistration from './screens/BuyerRegistration';
+import SellerRegistration from './screens/SellerRegistration';
+
 
 
 const Stack = createNativeStackNavigator();
@@ -35,13 +39,17 @@ useEffect(()=>{
   return (
     <ToastProvider>
     <NavigationContainer>
-    <Stack.Navigator initialRouteName='Splash'>
+    <Stack.Navigator initialRouteName='BuyerRegistration'>
        <Stack.Screen name="Splash" component={Splash} options={{headerShown: false}} />
        <Stack.Screen name="Loading" component={Loading} options={{headerShown: false}} />
       
        <Stack.Screen name="Landing" component={Landing} options={{headerShown: false}} />
+       <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
+       <Stack.Screen name="RegisterPanel" component={RegisterPanel} options={{headerShown: false}} />
+       <Stack.Screen name="BuyerRegistration" component={BuyerRegistration} options={{headerShown: false}} />
+       <Stack.Screen name="SellerRegistration" component={SellerRegistration} options={{headerShown: false}} />
      
-     
+       
       <Stack.Screen name='Dashboard' component={Dashboard} options={{headerShown: false}}    /> 
       
      
