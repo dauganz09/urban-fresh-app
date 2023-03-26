@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,TextInput, TouchableOpacity,Image} from 'react-native'
+import { StyleSheet, Text, View,TextInput, TouchableOpacity,Image,ActivityIndicator} from 'react-native'
 import Checkbox from 'expo-checkbox';
 import React,{useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -10,6 +10,10 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import logoNeon from '../assets/images/logo-neon-green.png'
 
+import { FIRESTORE_DB } from '../utils/firebaseConfig';
+import { FIREBASE_AUTH } from '../utils/firebaseConfig';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 
 
 export default function Login({navigation}) {
@@ -17,49 +21,65 @@ export default function Login({navigation}) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [isChecked, setChecked] = useState(false);
+    const [loading, setLoading] = useState(false)
 
 
     
   
 
-    const userLogin = async () => {
-        const res = axios1.post('login', {
-            email,
-            password
-        });
-        const result = await res;
-        console.log(result);
-       
-        if(!result.data == false){
-          toast.show("Login Successfully!", {
-            type: "success",
-            placement: "bottom",
-            duration: 2000,
-            offset: 30,
-            animationType: "slide-in",
-          });
-            const {data} = result;
-            
-              console.log(data);
-            AsyncStorage.setItem('user_id',data.user_id);
-            AsyncStorage.setItem('fullname',data.fullname);
-            AsyncStorage.setItem('email',data.email);
-
-            AsyncStorage.setItem('pass',data.cpass);
-            AsyncStorage.setItem('isLogin',"1");
-
-            
-            navigation.navigate('Dashboard')
-           
-        }else{
-          toast.show("Invalid Credentials!", {
+    const userLogin =  () => {
+        if(email =='' || email.indexOf('@') == -1 || password=='') {
+          toast.show('Fill up empty fields!!',{
             type: "danger",
             placement: "bottom",
             duration: 2000,
             offset: 30,
             animationType: "slide-in",
-          });
+          })
+          return;
         }
+        setLoading(true)
+        signInWithEmailAndPassword(FIREBASE_AUTH,email, password)
+        .then(cred=>{
+          console.log(cred)
+          if(cred.user.emailVerified==false){
+            toast.show('Please verify your email first!!!',{
+              type: "danger",
+              placement: "bottom",
+              duration: 2000,
+              offset: 30,
+              animationType: "slide-in",
+            })
+            return;
+          }
+          console.log('Login Success!!')
+         
+        })
+        .catch(err=>{
+          console.log(err.code)
+          if(err.code=="auth/user-not-found"){
+            toast.show('User not found!!! Please check your credentials!',{
+              type: "danger",
+              placement: "bottom",
+              duration: 2000,
+              offset: 30,
+              animationType: "slide-in",
+            })
+          }else if(err.code==="auth/wrong-password"){
+            toast.show('Password is incorrect!!',{
+              type: "danger",
+              placement: "bottom",
+              duration: 2000,
+              offset: 30,
+              animationType: "slide-in",
+            })
+          }
+        })
+        .finally(()=>setLoading(false))
+
+            
+           
+       
 
     }
 
@@ -78,6 +98,7 @@ export default function Login({navigation}) {
 
   return (
     <SafeAreaView style={styles.container}>
+      {loading && <ActivityIndicator style={styles.indicator} animating={loading} size="large" color='#21C622'/>}
       <Image
         source={{uri : logoNeon}}
         resizeMode = 'contain'
@@ -91,8 +112,8 @@ export default function Login({navigation}) {
           </View>
              
         
-          <Input type='text' placeholder='Username' placeholderTextColor='black' />
-          <Input type='text' placeholder='Password' secureTextEntry={true} placeholderTextColor='black'  />
+          <Input type='text' placeholder='Email Address' placeholderTextColor='black' onChangeText={(text)=>setEmail(text)} value={email} />
+          <Input type='text' placeholder='Password' secureTextEntry={true} placeholderTextColor='black' onChangeText={(text)=>setPassword(text)} value={password}  />
           <View style={styles.remember}>
           <Checkbox
           style={styles.checkbox}
@@ -106,7 +127,7 @@ export default function Login({navigation}) {
           <Text>New user?</Text><TouchableOpacity onPress={()=>navigation.navigate('RegisterPanel')}><Text style={styles.link}>Create an account</Text></TouchableOpacity>
           </View>
           
-          <Button text='Log in' width={150} color='#21C622' textColor='white'/>
+          <Button onPress={userLogin} text='Log in' width={150} color='#21C622' textColor='white'/>
           
        </View>
       
@@ -123,6 +144,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor : "white"
+      },
+      indicator : {
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        left: 0,
+        right: 0,
+        top: 100,
+       
       },
       header : {
          width : '100%',

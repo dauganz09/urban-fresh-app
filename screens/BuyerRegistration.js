@@ -7,8 +7,14 @@ import Input from '../components/Input';
 import Checkbox from 'expo-checkbox';
 import Spacer from '../components/Spacer';
 import { useToast } from "react-native-toast-notifications";
+//firebase
+import { createUserWithEmailAndPassword, sendEmailVerification }  from 'firebase/auth';
+import { FIRESTORE_DB } from '../utils/firebaseConfig';
+import { FIREBASE_AUTH } from '../utils/firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
 
 const BuyerRegistration = () => {
+    
     const toast = useToast();
     const navigation = useNavigation()
     const [isChecked, setChecked] = useState(false);
@@ -36,6 +42,39 @@ const BuyerRegistration = () => {
         });
         return;
       }
+
+      if(user.fullname =="" || user.emailaddress == "" || user.pass == "" || user.mobile == "" || user.address==""){
+        toast.show("Please fill up empty fields!!", {
+          type: "danger",
+          placement: "bottom",
+          duration: 2000,
+          offset: 30,
+          animationType: "slide-in",
+        });
+
+        return;
+      }
+
+      createUserWithEmailAndPassword(FIREBASE_AUTH,user.emailadd, user.pass)
+      .then((userCredential)=>{
+          setDoc(doc(FIRESTORE_DB,'users',userCredential.user.uid),{
+             fullname: user.fullname,
+             mobile: user.mobile,
+             address: user.address,
+             userType: 1
+            
+          })
+          .then((res)=>{
+              sendEmailVerification(FIREBASE_AUTH.currentUser)
+              navigation.navigate('RegisterSuccess')
+               
+              
+          })
+          .catch(err => console.error(err))
+      })
+      .catch((err)=>{
+        console.log(err)
+      });
     }
     
   return (

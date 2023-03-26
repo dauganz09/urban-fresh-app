@@ -12,6 +12,7 @@ import Landing from './screens/Landing';
 import RegisterPanel from './screens/RegisterPanel';
 import BuyerRegistration from './screens/BuyerRegistration';
 import SellerRegistration from './screens/SellerRegistration';
+import RegisterSuccess from './screens/RegisterSuccess';
 
 
 
@@ -39,7 +40,7 @@ useEffect(()=>{
   return (
     <ToastProvider>
     <NavigationContainer>
-    <Stack.Navigator initialRouteName='BuyerRegistration'>
+    <Stack.Navigator initialRouteName='Login'>
        <Stack.Screen name="Splash" component={Splash} options={{headerShown: false}} />
        <Stack.Screen name="Loading" component={Loading} options={{headerShown: false}} />
       
@@ -48,6 +49,7 @@ useEffect(()=>{
        <Stack.Screen name="RegisterPanel" component={RegisterPanel} options={{headerShown: false}} />
        <Stack.Screen name="BuyerRegistration" component={BuyerRegistration} options={{headerShown: false}} />
        <Stack.Screen name="SellerRegistration" component={SellerRegistration} options={{headerShown: false}} />
+       <Stack.Screen name="RegisterSuccess" component={RegisterSuccess} options={{headerShown: false}} />
      
        
       <Stack.Screen name='Dashboard' component={Dashboard} options={{headerShown: false}}    /> 
