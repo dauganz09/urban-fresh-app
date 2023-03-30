@@ -27,9 +27,10 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
         elevation: 7,
-        padding : 20
+        padding : 20,
+        zIndex : 1000
     },
     btnText : {
-        fontWeight : 700
+        fontWeight : 'bold'
     }
 })

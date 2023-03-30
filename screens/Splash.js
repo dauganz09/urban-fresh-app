@@ -1,13 +1,12 @@
-import { StyleSheet, Text, View,ImageBackground, SafeAreaView, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View,ImageBackground, SafeAreaView, TouchableOpacity,Image } from 'react-native'
 import React from 'react'
 import bg from '../assets/images/kiwi.png'
-import { Image } from 'react-native-web'
 import logo from '../assets/images/logo.png'
 
 const Splash = ({navigation}) => {
   return (
     <ImageBackground
-        source={{uri: bg}}
+        source={bg}
         resizeMode='cover'
         style={{
             flex:1
@@ -16,7 +15,7 @@ const Splash = ({navigation}) => {
         <SafeAreaView style={styles.container}>
             <Image
                 style={styles.logo}
-                source={{uri :logo}}
+                source={logo}
             />
             <View style={styles.btnBox}>
                 <Text style={styles.heading}>Quick delivery at your doorstep</Text>

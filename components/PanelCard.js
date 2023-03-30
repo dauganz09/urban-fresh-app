@@ -10,9 +10,7 @@ const PanelCard = ({title,image,text,link}) => {
   return (
     <TouchableOpacity onPress={()=> navigation.navigate(link)} style={[styles.btnCard,{width : width -120}]}>
         <ImageBackground style={styles.imgBg}
-            source ={{
-                uri : image
-            }}
+            source ={image}
             resizeMode='cover' >
             <Text style={styles.title}>{title}</Text>
         </ImageBackground>
@@ -42,7 +40,7 @@ shadowRadius: 1.00,
 elevation: 1,
     },
     title : {
-        fontWeight: 700,
+        fontWeight: 'bold',
         fontSize: 29,
         lineHeight: 35,
         /* identical to box height, or 146% */
@@ -62,7 +60,7 @@ elevation: 1,
         paddingHorizontal:10,
         color : '#21C622',
         fontStyle: 'normal',
-        fontWeight: 400,
+        fontWeight: 'bold',
         fontSize: 12,
         lineHeight: 12
 

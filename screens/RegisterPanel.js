@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         width : '100%',
         fontStyle: 'normal',
-        fontWeight: 700,
+        fontWeight: 'bold',
         fontSize: 25,
        lineHeight: 30,
        color : '#3E3627',

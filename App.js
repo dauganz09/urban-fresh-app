@@ -13,6 +13,7 @@ import RegisterPanel from './screens/RegisterPanel';
 import BuyerRegistration from './screens/BuyerRegistration';
 import SellerRegistration from './screens/SellerRegistration';
 import RegisterSuccess from './screens/RegisterSuccess';
+import HomeStack from './navigation/buyer/HomeStack';
 
 
 
@@ -22,7 +23,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  const [islogin, setIslogin] = useState(false)
+  const [islogin, setIslogin] = useState(true)
 
 useEffect(()=>{
   AsyncStorage.getItem('user_id').then(value => {
@@ -40,7 +41,7 @@ useEffect(()=>{
   return (
     <ToastProvider>
     <NavigationContainer>
-    <Stack.Navigator initialRouteName='Login'>
+    <Stack.Navigator initialRouteName="Login">
        <Stack.Screen name="Splash" component={Splash} options={{headerShown: false}} />
        <Stack.Screen name="Loading" component={Loading} options={{headerShown: false}} />
       
@@ -50,7 +51,8 @@ useEffect(()=>{
        <Stack.Screen name="BuyerRegistration" component={BuyerRegistration} options={{headerShown: false}} />
        <Stack.Screen name="SellerRegistration" component={SellerRegistration} options={{headerShown: false}} />
        <Stack.Screen name="RegisterSuccess" component={RegisterSuccess} options={{headerShown: false}} />
-     
+       <Stack.Screen name="BuyerStack" component={HomeStack} options={{headerShown: false}} />
+
        
       <Stack.Screen name='Dashboard' component={Dashboard} options={{headerShown: false}}    /> 
       

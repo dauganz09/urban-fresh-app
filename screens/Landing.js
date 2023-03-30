@@ -20,13 +20,8 @@ const Landing = ({navigation}) => {
     >
         <SafeAreaView style={styles.container} >
             <Image
-                source={{uri : logoText}}
-                style={{
-                    width : 300,
-                    height : 200,
-                   
-                   
-                }}
+                source={logoText}
+                style={styles.logoStyles}
             />
             <View  style={styles.btnBox}>
                 <TouchableOpacity onPress={()=>navigation.navigate('RegisterPanel')}  style={styles.btn}>
@@ -38,34 +33,25 @@ const Landing = ({navigation}) => {
                 <View style={styles.socialBtns}>
                      <TouchableOpacity>
                         <Image 
-                            source={{uri : fb}}
+                            source={fb}
                             
-                            style={{
-                                height:30,
-                                width :30
-                            }}
+                            style={styles.fbStyles}
                             
                         />
                      </TouchableOpacity>
                      <TouchableOpacity>
                         <Image 
-                            source={{uri : google}}
+                            source={google}
                             
-                            style={{
-                                height:30,
-                                width :30
-                            }}
+                            style={styles.gStyles}
                             
                         />
                         </TouchableOpacity>
                         <TouchableOpacity>
                         <Image 
-                            source={{uri : twitter}}
+                            source={twitter}
                             
-                            style={{
-                                height:30,
-                                width :30
-                            }}
+                            style={styles.tStyles}
                             
                         />
                         </TouchableOpacity>
@@ -91,6 +77,23 @@ const styles = StyleSheet.create({
        
         
     },
+    fbStyles : {
+        height:30,
+        width :30
+    },
+    gStyles : {
+        height:30,
+        width :30
+    },
+    tStyles : {
+        height:30,
+        width :30
+    },
+    logoStyles :{
+        width : 300,
+        height : 200,
+                   
+    },  
     btnBox:{
         width : 300,
         display : 'flex',

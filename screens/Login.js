@@ -1,9 +1,8 @@
 import { StyleSheet, Text, View,TextInput, TouchableOpacity,Image,ActivityIndicator} from 'react-native'
 import Checkbox from 'expo-checkbox';
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {axios1} from '../utils/axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import bg from '../assets/logo_caring.png';
 import { useToast } from "react-native-toast-notifications";
 import Input from '../components/Input';
@@ -24,10 +23,17 @@ export default function Login({navigation}) {
     const [loading, setLoading] = useState(false)
 
 
+    useEffect(() => {
+      console.log(logoNeon)
+    
+     
+      
+    },[])
     
   
 
     const userLogin =  () => {
+      console.log('Login')
         if(email =='' || email.indexOf('@') == -1 || password=='') {
           toast.show('Fill up empty fields!!',{
             type: "danger",
@@ -51,8 +57,10 @@ export default function Login({navigation}) {
               animationType: "slide-in",
             })
             return;
+          }else{
+            navigation.navigate('BuyerStack')
           }
-          console.log('Login Success!!')
+      
          
         })
         .catch(err=>{
@@ -100,7 +108,7 @@ export default function Login({navigation}) {
     <SafeAreaView style={styles.container}>
       {loading && <ActivityIndicator style={styles.indicator} animating={loading} size="large" color='#21C622'/>}
       <Image
-        source={{uri : logoNeon}}
+        source={logoNeon}
         resizeMode = 'contain'
         style={styles.image}
         />
@@ -127,7 +135,7 @@ export default function Login({navigation}) {
           <Text>New user?</Text><TouchableOpacity onPress={()=>navigation.navigate('RegisterPanel')}><Text style={styles.link}>Create an account</Text></TouchableOpacity>
           </View>
           
-          <Button onPress={userLogin} text='Log in' width={150} color='#21C622' textColor='white'/>
+          <Button onPress={()=>navigation.navigate('BuyerStack')} text='Log in' width={150} color='#21C622' textColor='white'/>
           
        </View>
       
@@ -172,14 +180,13 @@ const styles = StyleSheet.create({
       heading : {
         width : 250,
         fontStyle: 'normal',
-        fontWeight: 700,
+       
         fontSize: 29,
        lineHeight: 30,
        color : '#3E3627'
       },
       smallText :{
         fontStyle: 'normal',
-        fontWeight: 300,
         fontSize: 12,
         lineHeight: 12,
         textTransform: 'uppercase',
@@ -212,7 +219,7 @@ const styles = StyleSheet.create({
      image : {
       height : 350,
       width : 350,
-      zIndex : 1000,
+      zIndex : 1,
       position : 'absolute',
       bottom : -60,
       right : -65

@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
         justifyContent : 'flex-start',
      },
      title : {
-        fontWeight : 700,
+        fontWeight : 'bold',
         fontSize : 29,
         lineHeight : 30,
         color : '#3E3627',

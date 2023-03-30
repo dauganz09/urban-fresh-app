@@ -33,7 +33,7 @@ const Loading = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image 
-        source={{uri : logoText}}
+        source={logoText}
         resizeMode='contain'
         style={styles.logoText}
       />
