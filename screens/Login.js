@@ -58,7 +58,7 @@ export default function Login({navigation}) {
             })
             return;
           }else{
-            navigation.navigate('BuyerStack')
+            navigation.navigate('BuyerTabs')
           }
       
          
@@ -135,7 +135,7 @@ export default function Login({navigation}) {
           <Text>New user?</Text><TouchableOpacity onPress={()=>navigation.navigate('RegisterPanel')}><Text style={styles.link}>Create an account</Text></TouchableOpacity>
           </View>
           
-          <Button onPress={()=>navigation.navigate('BuyerStack')} text='Log in' width={150} color='#21C622' textColor='white'/>
+          <Button onPress={()=>navigation.navigate('BuyerTabs')} text='Log in' width={150} color='#21C622' textColor='white'/>
           
        </View>
       

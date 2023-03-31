@@ -13,7 +13,6 @@ import RegisterPanel from './screens/RegisterPanel';
 import BuyerRegistration from './screens/BuyerRegistration';
 import SellerRegistration from './screens/SellerRegistration';
 import RegisterSuccess from './screens/RegisterSuccess';
-import HomeStack from './navigation/buyer/HomeStack';
 import BuyerTabs from './navigation/buyer/BuyerTabs';
 
 
