@@ -1,4 +1,4 @@
-import { ImageBackground, SafeAreaView, StyleSheet, Text, View,Pressable, Image, TouchableOpacity } from 'react-native'
+import { ImageBackground, SafeAreaView, StyleSheet, Text, View,Pressable, Image, TouchableOpacity, FlatList } from 'react-native'
 import React from 'react'
 import { colors } from '../../utils/constants'
 import Header from '../../components/Header'
@@ -6,10 +6,12 @@ import bg from '../../assets/images/seller.jpg'
 import Icon from 'react-native-vector-icons/Entypo';
 import wholesale from '../../assets/images/wholesale.png'
 import retailer from '../../assets/images/retailer.png'
+import { fruits } from '../../utils/data'
+import FruitCard from '../../components/FruitCard'
 
 
 
-const BuyerHome = () => {
+const BuyerHome = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
         <Header />
@@ -43,7 +45,17 @@ const BuyerHome = () => {
             </TouchableOpacity>
 
           </View>
-        
+          <Text style={styles.rowTitle}>Best Seller this Season</Text>
+          <FlatList
+            showsHorizontalScrollIndicator={false}
+            horizontal
+            style={{width:'100%',}}
+            contentContainerStyle={{flexDirection : 'row',alignItems : 'center',justifyContent : 'center',height : 100,border: '1px solid black',marginBottom :10}}
+            data={fruits}
+            renderItem={({item,index})=> <FruitCard navigation={navigation} key={index} item={item}/>}
+            keyExtractor={item => item.id}
+          />
+          <Text style={styles.rowTitle}>Best Seller this Season</Text>
     </SafeAreaView>
   )
 }
@@ -119,5 +131,12 @@ const styles = StyleSheet.create({
     boxImage : {
       height : 85,
       width : 85,
+    },
+    rowTitle : {
+      fontWeight : 'bold',
+      fontSize : 24,
+      lineheight : 15,
+      paddingHorizontal : 20,
+      color : colors.headerText
     }
 })

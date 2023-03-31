@@ -33,6 +33,7 @@ export default function BuyerTabs() {
             
             else {
               iconName = 'person-outline';
+              iconColor = focused ? 'black' : colors.primary 
             } 
             return <Ionicons name={iconName} size={size} color={iconColor} />;
           },
