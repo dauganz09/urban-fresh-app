@@ -58,7 +58,7 @@ const BuyerHome = ({navigation}) => {
                     <Text style={{fontSize :10,lineHeight : 12,color :'white',textAlign : 'center'}}>Rating: 4.9 our of 5 starts</Text>
                     <Text style={{fontSize :10,lineHeight : 12,color:'white',textAlign : 'center'}}>1190 sales of this month</Text>
                   </View>
-                  <TouchableOpacity style={styles.bannerGo}>
+                  <TouchableOpacity onPress={()=>navigation.navigate('SellerList')} style={styles.bannerGo}>
                      <Text style={styles.goText}>Browse Stores</Text>
                       <Icon2 name="arrow-right" size={15} color={colors.primary} />
                   </TouchableOpacity>
