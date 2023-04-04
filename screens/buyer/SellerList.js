@@ -25,7 +25,7 @@ const SellerList = ({navigation}) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
             alignItems : 'center',
-            gap : 10,
+            gap : 20,
             paddingTop : 10
         }}
       >

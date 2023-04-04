@@ -17,7 +17,7 @@ const SellerCard = ({image,name}) => {
          <Text style={styles.sellerName}>{name}</Text>
          <View style={styles.address}>
                 <Icon name="location" size={18} color={colors.headerText} />
-                <Text style={styles.addText}>sadfasdf sdfasdfasdfasdfsdaf</Text>
+                <Text style={styles.addText}>sadfasdf sdsadfasdfasdfasdfsadfasdfasdfaf</Text>
          </View>
       </View>
     </TouchableOpacity>
