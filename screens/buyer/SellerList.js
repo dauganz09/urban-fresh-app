@@ -29,21 +29,8 @@ const SellerList = ({navigation}) => {
             paddingTop : 10
         }}
       >
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
-            <SellerCard image={fallback} name="seller" />
+            <SellerCard image={fallback} name="seller" onPress={()=>navigation.navigate('SellerProfile')} />
+            
 
       </ScrollView>
 

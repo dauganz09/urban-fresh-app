@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Login from './screens/Login';
 import Signup from './screens/Signup';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Dashboard from './screens/Dashboard';
 import { ToastProvider } from 'react-native-toast-notifications'
 import Splash from './screens/Splash';
@@ -23,25 +22,14 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  const [islogin, setIslogin] = useState(true)
-
-useEffect(()=>{
-  AsyncStorage.getItem('user_id').then(value => {
-    if(value !== null || value !== undefined){
-      setIslogin(true)
-      console.log(value)
-    }
-  }).catch(err => {});
   
-
-},[])
 
 
   
   return (
     <ToastProvider>
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="BuyerTabs">
+    <Stack.Navigator initialRouteName="Splash">
        <Stack.Screen name="Splash" component={Splash} options={{headerShown: false}} />
        <Stack.Screen name="Loading" component={Loading} options={{headerShown: false}} />
       

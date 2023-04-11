@@ -1,4 +1,4 @@
-import { ImageBackground, SafeAreaView, StyleSheet, Text, View,Pressable, Image, TouchableOpacity, FlatList } from 'react-native'
+import { ImageBackground, SafeAreaView, StyleSheet, Text, View,Pressable, Image, TouchableOpacity, FlatList,ScrollView } from 'react-native'
 import React from 'react'
 import { colors } from '../../utils/constants'
 import Header from '../../components/Header'
@@ -10,7 +10,6 @@ import { fruits } from '../../utils/data'
 import FruitCard from '../../components/FruitCard'
 import fallback from '../../assets/images/fallback.png'
 import Icon2 from 'react-native-vector-icons/Feather';
-import { ScrollView } from 'react-native-web'
 import strawberry from '../../assets/images/fruits/strawberry.png'
 import banana from '../../assets/images/fruits/banana.png'
 import watermelon from '../../assets/images/fruits/watermelon.png'

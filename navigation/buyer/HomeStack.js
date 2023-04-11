@@ -3,14 +3,18 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BuyerHome from '../../screens/buyer/BuyerHome';
 import SellerList from '../../screens/buyer/SellerList';
+import SellerProfile from '../../screens/buyer/SellerProfile';
+import ProductDetail from '../../screens/buyer/ProductDetail';
 
 const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
   return (
-  <Stack.Navigator initialRouteName='SellerList'>
+  <Stack.Navigator initialRouteName='BuyerHome'>
   <Stack.Screen name="BuyerHome" component={BuyerHome} options={{headerShown : false}}/>
    <Stack.Screen name="SellerList" component={SellerList} options={{headerShown : false}}/>    
+   <Stack.Screen name="SellerProfile" component={SellerProfile} options={{headerShown : false}}/>  
+   <Stack.Screen name="ProductDetail" component={ProductDetail} options={{headerShown : false}}/>  
   
     
 

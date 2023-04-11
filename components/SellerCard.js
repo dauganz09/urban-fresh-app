@@ -4,10 +4,10 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { colors } from '../utils/constants';
 
 
-const SellerCard = ({image,name}) => {
+const SellerCard = ({image,name,onPress}) => {
     const {width} = useWindowDimensions();
   return (
-    <TouchableOpacity style={[styles.card,{ width : width -20,}]}>
+    <TouchableOpacity onPress={onPress} style={[styles.card,{ width : width -20,}]}>
       <Image 
         source={image}
         style={styles.cardImg}
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
         flexDirection :'row',
         alignItems : 'center',
         justifyContent : 'center',
-        margin : '0 auto', 
+        marginVertical : 0,
+        marginHorizontal : 'auto',
         gap: 15,
         paddingHorizontal:10
     },

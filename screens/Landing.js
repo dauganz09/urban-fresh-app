@@ -10,9 +10,7 @@ import twitter from '../assets/images/twitter.png'
 const Landing = ({navigation}) => {
   return (
     <ImageBackground
-        source={{
-            uri : landing
-        }}
+        source={landing}
         resizeMode = 'cover'
         style={{
             flex :1
