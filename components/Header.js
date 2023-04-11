@@ -1,21 +1,35 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { colors } from '../utils/constants'
 import Icon from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import { TextInput } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const Header = ({onPress}) => {
+const Header = ({onPress,hasSearch=true}) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.header}>
     
       {onPress && <Pressable onPress={onPress}><Icon2 name="arrow-back" size={25} color="white" /></Pressable>}
-      <View style={styles.search}>
+     {hasSearch ? 
+     <View style={styles.search}>
           <Icon name="search" size={20} color ="white" />
           <TextInput style={styles.input} placeholder="Search" placeholderTextColor="white" />
-      </View>
+      </View> :
+       <View style={styles.spacer}>
+       
+        </View>
+      
+      }
+      <TouchableOpacity onPress={()=>navigation.navigate('Favorites')}>
       <Icon name="heart" size={20} color ="white" />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={()=>navigation.navigate('Cart')}>
       <Icon name="shopping-cart" size={20} color ="white" />
+      </TouchableOpacity>
+     
     </View>
   )
 }
@@ -29,10 +43,10 @@ const styles = StyleSheet.create({
         backgroundColor : colors.primary,
         width : '100%',
         flexDirection : 'row',
-        gap : 10,
+        gap : 20,
         alignItems : 'center',
         justifyContent : 'center',
-        paddingHorizontal : 20
+        paddingHorizontal : 25
 
     },
     search : {
@@ -49,6 +63,9 @@ const styles = StyleSheet.create({
       paddingHorizontal : 10,
       paddingVertical : 5
       
+    },
+    spacer : {
+      flex:1,
     },
     input : {
       flex :1,

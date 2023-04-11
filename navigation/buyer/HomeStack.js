@@ -5,6 +5,8 @@ import BuyerHome from '../../screens/buyer/BuyerHome';
 import SellerList from '../../screens/buyer/SellerList';
 import SellerProfile from '../../screens/buyer/SellerProfile';
 import ProductDetail from '../../screens/buyer/ProductDetail';
+import Cart from '../../screens/buyer/Cart';
+import Favorites from '../../screens/buyer/Favorites';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,6 +17,8 @@ export default function HomeStack() {
    <Stack.Screen name="SellerList" component={SellerList} options={{headerShown : false}}/>    
    <Stack.Screen name="SellerProfile" component={SellerProfile} options={{headerShown : false}}/>  
    <Stack.Screen name="ProductDetail" component={ProductDetail} options={{headerShown : false}}/>  
+   <Stack.Screen name="Cart" component={Cart} options={{headerShown : false}}/>  
+   <Stack.Screen name="Favorites" component={Favorites} options={{headerShown : false}}/>  
   
     
 

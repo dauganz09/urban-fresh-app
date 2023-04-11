@@ -16,7 +16,8 @@ const SellerProfile = ({navigation}) => {
     
   return (
     <SafeAreaView style={styles.container}>
-      <Header onPress={()=>navigation.goBack()}/>
+      <Header onPress={()=>navigation.goBack()}
+       />
       <Image
         source={fallback}
         resizeMode='cover'

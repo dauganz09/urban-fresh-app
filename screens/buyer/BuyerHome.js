@@ -29,7 +29,7 @@ const BuyerHome = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
      
-        <Header />
+        <Header navigation={navigation} />
         <ImageBackground
           source={bg}
           resizeMode="cover"
@@ -52,7 +52,7 @@ const BuyerHome = ({navigation}) => {
                     source={fallback}
                     resizeMode='cover'
                   />
-                  <View style={{width : 120}}>
+                  <View style={{flex:1}}>
                     <Text style={{color : 'white',fontSize : 16,textAlign : 'center',fontWeight : 'bold'}}>J&J Fruit Stand</Text>
                     <Text style={{fontSize :10,lineHeight : 12,color :'white',textAlign : 'center'}}>Rating: 4.9 our of 5 starts</Text>
                     <Text style={{fontSize :10,lineHeight : 12,color:'white',textAlign : 'center'}}>1190 sales of this month</Text>

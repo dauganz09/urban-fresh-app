@@ -12,7 +12,8 @@ const SellerList = ({navigation}) => {
     
   return (
     <SafeAreaView style={styles.container}>
-      <Header onPress={()=>navigation.goBack()}/>
+      <Header onPress={()=>navigation.goBack()}
+      />
       <View style={styles.tabs}>
             <Pressable onPress={()=>setActive('w')} style={[styles.tab,{color : active == 'w' ? 'white' : colors.primary,backgroundColor :active == 'w' ? colors.primary : 'white' }]}>
                     <Text style={{fontSize :20,fontWeight:'bold',color : active == 'w' ? 'white' : colors.primary}}>Wholesalers</Text>

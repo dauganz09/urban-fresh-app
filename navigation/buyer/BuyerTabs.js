@@ -7,12 +7,29 @@ import { colors } from '../../utils/constants';
 import TransactionStack from './TransactionStack';
 import DeliveryStack from './DeliveryStack';
 import AccountStack from './AccountStack';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 
 const Tab = createBottomTabNavigator();
 
 let iconName,iconColor;
 export default function BuyerTabs() {
+
+  function getIsTabBarShown(route) {
+    const routeName = getFocusedRouteNameFromRoute(route) ?? "HomeStack";
+    
+   
+    switch (routeName) {
+        case "Cart":
+          
+            return 'none';
+        case "Favorites":
+            return 'none';
+        default:
+            return true;
+    }
+}
+
   return (
     
       <Tab.Navigator 
@@ -39,7 +56,7 @@ export default function BuyerTabs() {
           },
         })}
        >
-        <Tab.Screen name="HomeStack" component={HomeStack} options = {{ tabBarLabel: 'Home',headerShown: false,tabBarLabelStyle : {fontSize: 10}}}  />
+        <Tab.Screen name="HomeStack" component={HomeStack} options = {({route})=>({ tabBarLabel: 'Home',tabBarStyle: {display : getIsTabBarShown(route)},headerShown: false,tabBarLabelStyle : {fontSize: 10}})}  />
         <Tab.Screen name="TransactionStack" component={TransactionStack} options = {{ tabBarLabel: 'Transactions',headerShown: false,tabBarLabelStyle : {fontSize: 10}}}  />
         <Tab.Screen name="DeliveryStack" component={DeliveryStack} options = {{ tabBarLabel: 'Delivery',headerShown: false,tabBarLabelStyle : {fontSize: 10}}}  />
         <Tab.Screen name="AccountStack" component={AccountStack} options = {{ tabBarLabel: 'Account',headerShown: false,tabBarLabelStyle : {fontSize: 10}}}  />
