@@ -29,7 +29,7 @@ const BuyerHome = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
      
-        <Header navigation={navigation} />
+        <Header  />
         <ImageBackground
           source={bg}
           resizeMode="cover"

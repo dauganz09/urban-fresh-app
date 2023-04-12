@@ -25,6 +25,10 @@ export default function BuyerTabs() {
             return 'none';
         case "Favorites":
             return 'none';
+        case "ProfileView":
+            return 'none';
+        case "UpdateProfile":
+            return 'none';
         default:
             return true;
     }
@@ -33,6 +37,7 @@ export default function BuyerTabs() {
   return (
     
       <Tab.Navigator 
+        initialRouteName="HomeStack"
         screenOptions={({ route }) => ({
           tabBarActiveTintColor: 'black',
           tabBarInactiveTintColor: colors.primary,
@@ -56,10 +61,10 @@ export default function BuyerTabs() {
           },
         })}
        >
-        <Tab.Screen name="HomeStack" component={HomeStack} options = {({route})=>({ tabBarLabel: 'Home',tabBarStyle: {display : getIsTabBarShown(route)},headerShown: false,tabBarLabelStyle : {fontSize: 10}})}  />
+        <Tab.Screen name="HomeStack" component={HomeStack} options = {({route})=>({ tabBarLabel: 'Home',headerShown: false,tabBarLabelStyle : {fontSize: 10}})}  />
         <Tab.Screen name="TransactionStack" component={TransactionStack} options = {{ tabBarLabel: 'Transactions',headerShown: false,tabBarLabelStyle : {fontSize: 10}}}  />
         <Tab.Screen name="DeliveryStack" component={DeliveryStack} options = {{ tabBarLabel: 'Delivery',headerShown: false,tabBarLabelStyle : {fontSize: 10}}}  />
-        <Tab.Screen name="AccountStack" component={AccountStack} options = {{ tabBarLabel: 'Account',headerShown: false,tabBarLabelStyle : {fontSize: 10}}}  />
+        <Tab.Screen name="AccountStack" component={AccountStack} options = {({route})=>({ tabBarLabel: 'Account',headerShown: false,tabBarLabelStyle : {fontSize: 10}})}  />
 
       </Tab.Navigator>
      
