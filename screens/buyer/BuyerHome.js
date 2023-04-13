@@ -22,10 +22,12 @@ import mangosteen from '../../assets/images/fruits/mangosteen.png'
 import dragon from '../../assets/images/fruits/dragon-fruit.png'
 import avocado from '../../assets/images/fruits/avocado.png'
 import lemon from '../../assets/images/fruits/lemon.png'
-
+import useStore from '../../utils/appStore'
 
 
 const BuyerHome = ({navigation}) => {
+  const user = useStore((state)=>state.user)
+  console.log(user)
   return (
     <SafeAreaView style={styles.container}>
      
@@ -36,7 +38,7 @@ const BuyerHome = ({navigation}) => {
           style={styles.imgBG}
         >
           <View style={styles.userBanner}>
-              <Text style={styles.heading}>Welcome, User</Text>
+              <Text style={styles.heading}>Welcome, {user.fname} {user.lname || ''}</Text>
               <View style={styles.location}>
                 <Icon name="location" size={20} color="black" />
                 <Text style={styles.text}> lorem asdfasdfasdf asdfasdfasdfa asdf asdf asdfasdfasdfasdfasdfadsf</Text>

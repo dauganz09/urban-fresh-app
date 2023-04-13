@@ -2,8 +2,11 @@ import { StyleSheet, Text, View,SafeAreaView,useWindowDimensions, TextInput,Touc
 import React from 'react'
 import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
+import useStore from '../../utils/appStore'
 
 const UpdateProfile = () => {
+    const user = useStore((state)=>state.user)
+
   return (
     <SafeAreaView style={styles.container}>
         <ScrollView
@@ -13,27 +16,27 @@ const UpdateProfile = () => {
             <Text style={styles.headerText}>Complete Name</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Firstname" text="Juan" />
-      <Input label="Lastname" text="Dela Cruz" />
+      <Input label="Firstname" text={user.fname} />
+      <Input label="Lastname" text={user.lname} />
       <View style={styles.header}>
             <Text style={styles.headerText}>Email Address</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Email Address" text="mail@gmail.com" />
+      <Input label="Email Address" text={user.email} />
       <View style={styles.header}>
             <Text style={styles.headerText}>Mobile Number</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Mobile Number" text="09162158998" isVerify />
+      <Input label="Mobile Number" text={user.mobile}isVerify />
       <View style={styles.header}>
             <Text style={styles.headerText}>Address</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Street Name Building, House no"/>
-      <Input label="Barangay"/>
-      <Input label="City/Town"/>
-      <Input label="Provice"/>
-      <Input label="Zip Code"/>
+      <Input label="Street Name Building, House no" text={user.block || ''} />
+      <Input label="Barangay" text={user.barangay || ''} />
+      <Input label="City/Town" text={user.city || ''} />
+      <Input label="Provice" text={user.province || ''} />
+      <Input label="Zip Code" text={user.zipcode || ''} />
       </ScrollView>
       <View style={styles.footer}>
             <Button onPress={()=>navigation.navigate('UpdateProfile')} color={colors.primary} text="Update Profile" textColor="white"/>

@@ -13,6 +13,7 @@ import BuyerRegistration from './screens/BuyerRegistration';
 import SellerRegistration from './screens/SellerRegistration';
 import RegisterSuccess from './screens/RegisterSuccess';
 import BuyerTabs from './navigation/buyer/BuyerTabs';
+import SellerTabs from './navigation/seller/SellerTabs';
 
 
 
@@ -29,7 +30,7 @@ export default function App() {
   return (
     <ToastProvider>
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="Splash">
+    <Stack.Navigator initialRouteName="Login">
        <Stack.Screen name="Splash" component={Splash} options={{headerShown: false}} />
        <Stack.Screen name="Loading" component={Loading} options={{headerShown: false}} />
       
@@ -40,6 +41,7 @@ export default function App() {
        <Stack.Screen name="SellerRegistration" component={SellerRegistration} options={{headerShown: false}} />
        <Stack.Screen name="RegisterSuccess" component={RegisterSuccess} options={{headerShown: false}} />
        <Stack.Screen name="BuyerTabs" component={BuyerTabs} options={{headerShown: false}} />
+       <Stack.Screen name="SellerTabs" component={SellerTabs} options={{headerShown: false}} />
 
        
       <Stack.Screen name='Dashboard' component={Dashboard} options={{headerShown: false}}    /> 

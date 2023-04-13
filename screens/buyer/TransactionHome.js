@@ -1,25 +1,26 @@
 import { SafeAreaView, StyleSheet, Text, View,Image, TextInput,useWindowDimensions, TouchableOpacity, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import userplaceholder from '../../assets/images/user.png'
 import { colors } from '../../utils/constants'
 
 import Header from '../../components/Header'
 
 const TransactionHome = ({navigation}) => {
+    const [transactions,setTransactions] = useState([]);
+
   return (
     <SafeAreaView style={styles.container}>
         <Header onPress={()=>navigation.goBack()} />
-        <ScrollView>
+        
         <View style={styles.cartBox}>
           
             <Text style={styles.title}>Order History</Text>
             
         </View>
-        <OrderCard status="Pending"/>
-        <OrderCard status="Delivered" />
-        <OrderCard status="Out for Delivery"/>
-        <OrderCard status="Delivered" />
-        </ScrollView>
+       {
+        transactions && 
+        <Text style={styles.infoText}>No Current Orders</Text>
+       }
     </SafeAreaView>
   )
 }
@@ -81,6 +82,15 @@ const styles = StyleSheet.create({
         color : colors.primary,
         lineHeight : 20
 
+    },
+    infoText : {
+        textAlign : 'center',
+        flex  :1,
+        fontSize : 20,
+        fontWeight:'bold',
+        color : colors.headerText,
+        lineHeight : 20,
+        width : '100%',
     },
     card : {
         marginVertical : 0,

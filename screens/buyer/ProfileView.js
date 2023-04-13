@@ -3,8 +3,14 @@ import React from 'react'
 import userplaceholder from '../../assets/images/user.png'
 import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
+import useStore from '../../utils/appStore'
+import { FIREBASE_AUTH } from '../../utils/firebaseConfig';
+
 
 const ProfileView = ({navigation}) => {
+    const user = useStore((state)=>state.user)
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgBox}>
@@ -18,11 +24,11 @@ const ProfileView = ({navigation}) => {
                     }}
                 />
       </View>
-      <Input label="Name" text="Juan Dela Cruz" />
-      <Input label="Email" text="dauganz09@gmail.com"  isVerified/>
-      <Input label="Password" text="password" isPassword isModify/>
-      <Input label="Mobile Number" text="09162158998" isVerified/>
-      <Input label="Address" text="123 Corner St, Barangay, Province, City, Zip Code" multiline/>
+      <Input label="Name" text={`${user.fname} ${user.lname}`} />
+      <Input label="Email" text={user.email}  isVerified/>
+      <Input label="Password" text={user.cpass} isPassword isModify/>
+      <Input label="Mobile Number" text={user.mobile} isVerified/>
+      <Input label="Address" text={user.block} multiline/>
       <View style={styles.footer}>
             <Button onPress={()=>navigation.navigate('UpdateProfile')} color={colors.primary} text="Update Profile" textColor="white"/>
       </View>

@@ -13,13 +13,13 @@ import {getFirestore} from "firebase/firestore";
 // Initialize Firebase
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBYA_KVJNy2l_MsOBo2RhcmJzwaW41V8B4",
-    authDomain: "urban-fresh-app.firebaseapp.com",
-    projectId: "urban-fresh-app",
-    storageBucket: "urban-fresh-app.appspot.com",
-    messagingSenderId: "125641437524",
-    appId: "1:125641437524:web:c8df89be6bdc96137658c1"
-  };
+  apiKey: "AIzaSyCbJn_KtfyWKJKPEbk4l5bRcBTv1ea7Kfg",
+  authDomain: "urban-fresh-app-40ad1.firebaseapp.com",
+  projectId: "urban-fresh-app-40ad1",
+  storageBucket: "urban-fresh-app-40ad1.appspot.com",
+  messagingSenderId: "62947803808",
+  appId: "1:62947803808:web:f48df679133384de99bfc5"
+};
   
   // Initialize Firebase
   export const FIREBASE_APP = initializeApp(firebaseConfig);

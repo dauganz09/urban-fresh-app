@@ -3,6 +3,7 @@ import { axios1 } from "./axios";
 
 const useStore = create((set) => ({
     data: [],
+    user : [],
     loading: false,
     hasErrors: false,
     fetch: async (code) => {
@@ -17,6 +18,9 @@ const useStore = create((set) => ({
       } catch (err) {
         set(() => ({ hasErrors: true, loading: false }));
       }
+    },
+    setUser : (userdata)=>{
+      set((state)=>({user : (state.data = userdata)}))
     },
     updateComments : (index,comment)=>{
         set(state => ({

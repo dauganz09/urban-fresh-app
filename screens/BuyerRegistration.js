@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,SafeAreaView,Image, TouchableOpacity,Modal } from 'react-native'
+import { StyleSheet, Text, View,SafeAreaView,Image, TouchableOpacity,Modal,ActivityIndicator} from 'react-native'
 import React,{useState} from 'react'
 import logoNeon from '../assets/images/logo-neon-green.png'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -21,13 +21,20 @@ const BuyerRegistration = () => {
     const [isCheckedP, setCheckedP] = useState(false);
     const [showt,setShowt] = useState(false);
     const [showp,setShowp] = useState(false);
+    const [loading,setLoading] = useState(false)
     const [user,setUser] = useState({
+      pic : '',
       fullname : '',
       emailadd: '',
       pass : '',
       cpass: '',
       mobile : '',
-      address: ''
+      block: '',
+      barangay : '',
+      city : '',
+      province : '',
+      zipcode : '',
+      userType : 1
 
     })
 
@@ -54,18 +61,29 @@ const BuyerRegistration = () => {
 
         return;
       }
-
+      setLoading(true)
       createUserWithEmailAndPassword(FIREBASE_AUTH,user.emailadd, user.pass)
       .then((userCredential)=>{
+           const full = user.fullname.split(' ')
           setDoc(doc(FIRESTORE_DB,'users',userCredential.user.uid),{
-             fullname: user.fullname,
+             
+             pic : user.pic,
+             fname: full[0],
+             lname : full[1],
+             email : user.emailadd,
+             cpass : user.pass,
              mobile: user.mobile,
-             address: user.address,
-             userType: 1
+             block: user.block,
+             barangay : user.barangay,
+             city : user.city,
+             province : user.province,
+             zipcode : user.zipcode,
+             userType: user.userType
             
           })
           .then((res)=>{
               sendEmailVerification(FIREBASE_AUTH.currentUser)
+              setLoading(false)
               navigation.navigate('RegisterSuccess')
                
               
@@ -79,6 +97,7 @@ const BuyerRegistration = () => {
     
   return (
     <SafeAreaView style={[styles.container]}>
+      {loading && <ActivityIndicator style={styles.indicator} animating={loading} size="large" color='#21C622'/>}
         <View style={styles.header}>
             <TouchableOpacity onPress={()=>navigation.goBack()}>
             <Icon name="arrowleft" size={30} color='#21C622' />
@@ -93,7 +112,7 @@ const BuyerRegistration = () => {
         <Input type="text" placeholder='Password' secureTextEntry={true} onChangeText={(text)=>setUser({...user,['pass']:text})} value={user.pass}/>
         <Input type="text" placeholder='Confirm Password' secureTextEntry={true} onChangeText={(text)=>setUser({...user,['cpass']:text})} value={user.cpass}/>
         <Input type="text" inputmode='numeric' placeholder='Mobile no.' onChangeText={(text)=>setUser({...user,['mobile']:text})} value={user.value} />
-        <Input type="text" placeholder='Complete Address' multiline={true} numberOfLines={10} height={105} onChangeText={(text)=>setUser({...user,['address']:text})} value={user.address} />
+        <Input type="text" placeholder='Complete Address' multiline={true} numberOfLines={10} height={105} onChangeText={(text)=>setUser({...user,['block']:text})} value={user.address} />
         <Spacer height={12}/>
         <View style={styles.remember}>
           <Checkbox
@@ -150,6 +169,15 @@ const styles = StyleSheet.create({
         width : "100%",
         paddingHorizontal : 30,
         border : '1px solid black'
+      },
+      indicator : {
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        left: 0,
+        right: 0,
+        top: 100,
+       
       },
      image : {
       height : 350,

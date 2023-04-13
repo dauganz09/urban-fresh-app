@@ -8,10 +8,11 @@ import { useToast } from "react-native-toast-notifications";
 import Input from '../components/Input';
 import Button from '../components/Button';
 import logoNeon from '../assets/images/logo-neon-green.png'
-
+import { doc, getDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from '../utils/firebaseConfig';
 import { FIREBASE_AUTH } from '../utils/firebaseConfig';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import useStore from '../utils/appStore';
 
 
 
@@ -21,6 +22,9 @@ export default function Login({navigation}) {
     const [password, setPassword] = React.useState('');
     const [isChecked, setChecked] = useState(false);
     const [loading, setLoading] = useState(false)
+    const setUser = useStore((state)=>state.setUser)
+
+    
 
 
     useEffect(() => {
@@ -32,7 +36,7 @@ export default function Login({navigation}) {
     
   
 
-    const userLogin =  () => {
+    const userLogin = async  () => {
       console.log('Login')
         if(email =='' || email.indexOf('@') == -1 || password=='') {
           toast.show('Fill up empty fields!!',{
@@ -58,7 +62,36 @@ export default function Login({navigation}) {
             })
             return;
           }else{
-            navigation.navigate('BuyerTabs')
+           
+              const docRef = doc(FIRESTORE_DB, "users",cred.user.uid);
+               getDoc(docRef).then(docSnap=> 
+                {console.log("Document data:", docSnap.data())
+                setUser(docSnap.data())
+                toast.show('Login Successfully!!!',{
+                  type: "success",
+                  placement: "bottom",
+                  duration: 2000,
+                  offset: 30,
+                  animationType: "slide-in",
+                })
+                setLoading(false)
+                if(docSnap.data().userType === 1){
+                  navigation.navigate('BuyerTabs');
+                }else{
+                  navigation.navigate('SellerTabs');
+                }
+              })
+               .catch(err=>{
+                console.log(err)
+                toast.show('Error logging in!!!',{
+                  type: "danger",
+                  placement: "bottom",
+                  duration: 2000,
+                  offset: 30,
+                  animationType: "slide-in",
+                })
+              })
+             
           }
       
          
@@ -135,7 +168,7 @@ export default function Login({navigation}) {
           <Text>New user?</Text><TouchableOpacity onPress={()=>navigation.navigate('RegisterPanel')}><Text style={styles.link}>Create an account</Text></TouchableOpacity>
           </View>
           
-          <Button onPress={()=>navigation.navigate('BuyerTabs')} text='Log in' width={150} color='#21C622' textColor='white'/>
+          <Button onPress={userLogin} text='Log in' width={150} color='#21C622' textColor='white'/>
           
        </View>
       
