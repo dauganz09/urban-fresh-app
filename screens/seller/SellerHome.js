@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity, Touchable, ScrollView } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity, Touchable, ScrollView,Platform,StatusBar } from 'react-native'
 import React,{useState} from 'react'
 import Header2 from '../../components/Header2'
 import SellerStats from '../../components/SellerStats'
@@ -6,13 +6,13 @@ import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
 import useStore from '../../utils/appStore'
 
-const SellerHome = () => {
+const SellerHome = ({navigation}) => {
     const user = useStore((state)=>state.user)
     const [tab,setTab] = useState('l')
     const [ltab,setLtab] = useState('r')
 
   return (
-    <SafeAreaView style={{flex : 1,backgroundColor : 'white'}}>
+    <SafeAreaView style={styles.container}>
       <Header2 name={user.storename}/>
         <SellerStats />
         <View style={styles.header}>
@@ -49,7 +49,7 @@ const SellerHome = () => {
                         
                     </ScrollView>
                     <View style={styles.btnBox}>
-                    <Button text="Add Product" color={colors.primary} textColor="white" />
+                    <Button text="Add Product" color={colors.primary} onPress={()=>navigation.navigate('AddProduct')} textColor="white" />
                     </View>
                   
                    
@@ -61,6 +61,12 @@ const SellerHome = () => {
 export default SellerHome
 
 const styles = StyleSheet.create({
+    container : {
+        flex : 1,
+        backgroundColor : 'white',
+        paddingTop: Platform.OS === 'android' ? 25 : 0
+
+    },
     header : {
         
         flexDirection : 'row',

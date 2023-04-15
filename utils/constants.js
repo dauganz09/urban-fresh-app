@@ -11,3 +11,22 @@ export const colors = {
     dragon : ' rgba(223, 54, 92, 0.4)'  
 
 }
+
+export const padding = {
+    VPADDINGSM : {
+        paddingTop : 10,
+        paddingBottom : 10
+    },
+    VPADDINGMD : {
+        paddingTop : 20,
+        paddingBottom : 20
+    },
+    HPADDINGSM : {
+        paddingLeft : 10,
+        paddingRight : 10
+    },
+    HPADDINGMD : {
+        paddingLeft : 20,
+        paddingRight : 20
+    }
+}

@@ -66,7 +66,7 @@ export default function Login({navigation}) {
               const docRef = doc(FIRESTORE_DB, "users",cred.user.uid);
                getDoc(docRef).then(docSnap=> 
                 {console.log("Document data:", docSnap.data())
-                setUser(docSnap.data())
+                setUser({...docSnap.data(),userid : cred.user.uid})
                 toast.show('Login Successfully!!!',{
                   type: "success",
                   placement: "bottom",

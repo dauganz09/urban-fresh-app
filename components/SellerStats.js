@@ -62,8 +62,8 @@ const styles = StyleSheet.create({
 
         elevation: 11,
         marginVertical : 0,
-        marginHorizontal : 'auto',
-        marginVertical : 10,
+        marginLeft : 'auto',
+        marginRight : 'auto',
         paddingVertical : 5,
         paddingHorizontal : 15,
 },

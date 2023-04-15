@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View,TextInput } from 'react-native'
 import React from 'react'
+import { colors } from '../utils/constants'
 
 const Input = (props) => {
   return (
@@ -13,7 +14,9 @@ export default Input
 
 const styles = StyleSheet.create({
     input : {
-        border : '2px #21C622 solid',
+        borderWidth : 2,
+        borderStyle : 'solid',
+        borderColor : colors.primary,
         outlineStyle : 'none',
         width : 294,
         borderRadius : 10,
