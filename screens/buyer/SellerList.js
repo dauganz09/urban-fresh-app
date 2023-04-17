@@ -1,14 +1,41 @@
 import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useLayoutEffect} from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
 import SellerCard from '../../components/SellerCard'
 import fallback from '../../assets/images/fallback.png'
+import useStore from '../../utils/appStore'
+import { collection, query, where,getDocs  } from "firebase/firestore";
+import { FIRESTORE_DB } from '../../utils/firebaseConfig'
+import { useIsFocused } from '@react-navigation/native';
 
 
 const SellerList = ({navigation}) => {
     const [active,setActive] = useState('w')
+    const userRef = collection(FIRESTORE_DB, "users");
+    const [sellers,setSellers] = useState([])
+    const isFocused = useIsFocused();
 
+    useLayoutEffect(() => {
+      getSellers()
+  
+   
+  }, [active,isFocused])
+
+  const getSellers = async ()=>{
+      // Create a query against the collection.
+      const type = active === 'w' ? 3 : 2
+      const q = query(userRef, where("userType", "==",type));
+      const querySnapshot = await getDocs(q);
+      const seller_data = []
+      querySnapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      console.log(doc.id, " => ", doc.data());
+      seller_data.push({...doc.data(),seller_id : doc.id})
+      });
+      setSellers(seller_data)
+  }
+  console.log(sellers)
     
   return (
     <SafeAreaView style={styles.container}>
@@ -30,7 +57,15 @@ const SellerList = ({navigation}) => {
             paddingTop : 10
         }}
       >
-            <SellerCard image={fallback} name="seller" onPress={()=>navigation.navigate('SellerProfile')} />
+           { 
+           sellers.length == 0 && <Text>No Sellers Available!!</Text>
+          }
+
+          {
+            sellers.map((seller,i)=>(
+              <SellerCard key={i} image={seller.pic || fallback} name={seller.storename} onPress={()=>navigation.navigate('SellerProfile',{sellerid : seller.seller_id})} />
+            ))
+          }
             
 
       </ScrollView>

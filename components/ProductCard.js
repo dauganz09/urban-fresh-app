@@ -4,12 +4,12 @@ import fallback from '../assets/images/fallback.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../utils/constants';
 
-const ProductCard = ({onPress}) => {
+const ProductCard = ({onPress,name,desc,price,stock,unit,pic}) => {
     const {width} = useWindowDimensions()
   return (
     <TouchableOpacity onPress={onPress} style={[styles.card,{width : width * .95}]}>
         <Image 
-            source={fallback}
+            source={pic[0] || fallback}
             resizeMode='cover'
             style={{
                 height : 90,
@@ -17,9 +17,10 @@ const ProductCard = ({onPress}) => {
             }}
         />
         <View style={styles.info}>
-                <Text style={styles.name}>Product Name</Text>
-                <Text style={styles.desc}>Desciption asdfasd asdf asdfasdf</Text>
-                <Text style={styles.price}>Php 128 per piece</Text>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.desc}>{desc}</Text>
+                <Text style={styles.price}>Php{price} per {unit==1 ? 'Kilo' : '100 Grams' }</Text>
+                <Text style={styles.price}>Stock: {stock}</Text>
         </View>
         <View style={styles.heart}>
             <Icon name="heart-o" size={25} />

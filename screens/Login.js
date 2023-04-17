@@ -23,6 +23,7 @@ export default function Login({navigation}) {
     const [isChecked, setChecked] = useState(false);
     const [loading, setLoading] = useState(false)
     const setUser = useStore((state)=>state.setUser)
+    const user = useStore((state)=>state.user)
 
     
 
@@ -67,6 +68,7 @@ export default function Login({navigation}) {
                getDoc(docRef).then(docSnap=> 
                 {console.log("Document data:", docSnap.data())
                 setUser({...docSnap.data(),userid : cred.user.uid})
+                console.log(user)
                 toast.show('Login Successfully!!!',{
                   type: "success",
                   placement: "bottom",

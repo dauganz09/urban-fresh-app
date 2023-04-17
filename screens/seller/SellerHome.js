@@ -1,15 +1,41 @@
-import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity, Touchable, ScrollView,Platform,StatusBar } from 'react-native'
-import React,{useState} from 'react'
+import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity, Touchable, ScrollView,Platform,StatusBar,useWindowDimensions,Image} from 'react-native'
+import React,{useState,useLayoutEffect} from 'react'
 import Header2 from '../../components/Header2'
 import SellerStats from '../../components/SellerStats'
 import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
 import useStore from '../../utils/appStore'
+import { collection, query, where,getDocs  } from "firebase/firestore";
+import { FIRESTORE_DB } from '../../utils/firebaseConfig'
+import { useIsFocused } from '@react-navigation/native';
 
 const SellerHome = ({navigation}) => {
     const user = useStore((state)=>state.user)
     const [tab,setTab] = useState('l')
     const [ltab,setLtab] = useState('r')
+    const productRef = collection(FIRESTORE_DB, "products");
+    const [products,setProducts] = useState([])
+    const isFocused = useIsFocused();
+  
+
+    useLayoutEffect(() => {
+        getProducts()
+    
+     
+    }, [tab,isFocused])
+
+    const getProducts = async ()=>{
+        // Create a query against the collection.
+        const q = query(productRef, where("userId", "==",user.userid));
+        const querySnapshot = await getDocs(q);
+        const prod_data = []
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        prod_data.push({...doc.data(),prod_id : doc.id})
+        });
+        setProducts(prod_data)
+    }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,7 +70,14 @@ const SellerHome = ({navigation}) => {
                     <ScrollView style={{flex : 1,}}
                         contentContainerStyle={{alignItems : 'center',justifyContent : 'center'}}
                     >
-                        <Text style={styles.headerText}>No Products</Text>
+                        {
+                            !products && <Text style={styles.headerText}>No Products</Text>}
+
+                        {
+                            products.map((prod,i)=>(
+                               <ProductCard key={i} {...prod} />
+                            ))
+                        }
                 
                         
                     </ScrollView>
@@ -56,6 +89,29 @@ const SellerHome = ({navigation}) => {
 
     </SafeAreaView>
   )
+}
+
+const ProductCard = ({pic,name,desc,price,unit,stock})=>{
+    const {height,width} = useWindowDimensions()
+    return (
+        <TouchableOpacity  style={[styles.card,{width : width * .95}]}>
+        <Image 
+            source={pic[0]}
+            resizeMode='cover'
+            style={{
+                height : 90,
+                width : 90
+            }}
+        />
+        <View style={styles.info}>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.desc}>{desc}</Text>
+                <Text style={styles.price}>PHP {price} per {unit ? 'Kilo' : '100 grams'}</Text>
+                <Text style={styles.price}>Stock: {stock}</Text>
+        </View>
+      
+    </TouchableOpacity>
+    )
 }
 
 export default SellerHome
@@ -119,5 +175,33 @@ const styles = StyleSheet.create({
         width : '100%',
         alignItems : 'center',
         justifyContent : 'center',
-    }
+    },
+    card : {
+        height : 120,
+        padding: 15,
+        flexDirection : 'row',
+        alignItems : 'center',
+        gap : 10
+        
+    },
+    info : {
+        flex : 1
+    },
+    name : {
+        color : colors.headerText,
+        fontSize : 14,
+        lineHeight : 20,
+        fontWeight : 'bold',
+    },
+    desc : {
+        color : 'black',
+        fontSize : 14,
+        lineHeight : 14,
+       
+    },
+    price : {
+        color : 'black',
+        fontSize : 14,
+        lineHeight : 20,
+    },
 })

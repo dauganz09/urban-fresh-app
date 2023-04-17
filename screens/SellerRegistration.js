@@ -78,7 +78,7 @@ const SellerRegistration = () => {
              city : user.city,
              province : user.province,
              zipcode : user.zipcode,
-             userType: user.userType
+             userType: Number(user.userType)
             
           })
           .then((res)=>{
@@ -96,8 +96,8 @@ const SellerRegistration = () => {
     }
 
     const data = [
-      {key:'2', value:'Retailer',},
-      {key:'3', value:'Wholesaler'},
+      {key:2, value:'Retailer',},
+      {key:3, value:'Wholesaler'},
      
   ]
   const onChangeType = async (val)=>{
@@ -117,7 +117,7 @@ const SellerRegistration = () => {
         <View style={styles.titleBox}>
             <Text style={styles.title}>Sign up as a Seller</Text>
         </View>
-        <SelectList boxStyles={styles.select} dropdownStyles={styles.dropdown} defaultOption={{key : '2',value : 'Retailer'}} setSelected={onChangeType} save="key"  search={false} data={data} placeholder="Retailer or Wholesaler"  />
+        <SelectList boxStyles={styles.select} dropdownStyles={styles.dropdown} defaultOption={{key : 2,value : 'Retailer'}} setSelected={onChangeType} save="key"  search={false} data={data} placeholder="Retailer or Wholesaler"  />
         <Input type="text" placeholder='Store Name' onChangeText={(text)=>setUser({...user,['storename']:text})} value={user.storename} />
         <Input type="text" placeholder='Email address' onChangeText={(text)=>setUser({...user,['emailadd']:text})} value={user.emailadd} />
         <Input type="text" placeholder='Password' secureTextEntry={true} onChangeText={(text)=>setUser({...user,['pass']:text})} value={user.pass}/>

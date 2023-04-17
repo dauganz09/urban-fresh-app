@@ -20,7 +20,7 @@ const useStore = create((set) => ({
       }
     },
     setUser : (userdata)=>{
-      set((state)=>({user : (state.data = userdata)}))
+      set((state)=>({user : (state.user = userdata)}))
     },
     updateComments : (index,comment)=>{
         set(state => ({

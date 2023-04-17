@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 export default function HomeStack() {
   return (
-  <Stack.Navigator initialRouteName='AddProduct'>
+  <Stack.Navigator initialRouteName='SellerHome'>
   <Stack.Screen name="SellerHome" component={SellerHome} options={{headerShown : false}}/>
   <Stack.Screen name="AddProduct" component={AddProduct} options={{
         title : 'Profile',

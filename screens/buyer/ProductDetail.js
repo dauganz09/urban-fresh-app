@@ -1,5 +1,5 @@
 import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions, TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useLayoutEffect} from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
 import SellerCard from '../../components/SellerCard'
@@ -11,14 +11,53 @@ import Button from '../../components/Button'
 import { Shadow } from 'react-native-shadow-2';
 import { ImageSlider } from "react-native-image-slider-banner";
 import ReviewCard from '../../components/ReviewCard'
+import { collection, query, where,getDocs,doc, getDoc  } from "firebase/firestore";
+import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 
 
 
 
-const ProductDetail = ({navigation}) => {
+const ProductDetail = ({route,navigation}) => {
     const {height,width} = useWindowDimensions()
+    const { prod } = route.params;
+    // const docRef = doc(FIRESTORE_DB, "products", prodid);
+    const [product,setProduct] = useState(prod)
+
+    useLayoutEffect(() => {
+       console.log(product)
+     
+    }, [])
+
+//    const getProduct =  async ()=>{
+//     const docSnap = await getDoc(docRef);
 
     
+//     if (docSnap.exists()) {
+//         console.log(docSnap.data())
+//         const newProd = {...docSnap.data()}
+//         setProduct(newProd)
+//         console.log(product)
+//       } else {
+//         // docSnap.data() will be undefined in this case
+//         console.log("No such document!");
+//       }
+//     }
+
+    const getImages = ()=>{
+        console.log(product.pic)
+            if(product.pic.length==0) return {img : product.pic}
+
+            const pics = product.pic.map((img)=>{
+                return {
+                    img : img
+                }
+            })
+
+            return pics
+    }
+
+    
+  
   return (
     <SafeAreaView style={styles.container}>
       <Header 
@@ -27,11 +66,7 @@ const ProductDetail = ({navigation}) => {
       
       />
       <ImageSlider
-        data={[
-            {img: 'https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'},
-            {img: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80'},
-            {img: 'https://cdn.pixabay.com/photo/2015/04/19/08/32/marguerite-729510__340.jpg'}
-        ]}
+        data={[...getImages()]}
         
         autoPlay={true}
         onItemChanged={(item) => console.log("item", item)}
@@ -42,7 +77,7 @@ const ProductDetail = ({navigation}) => {
       
       <View style={styles.nameBox}>
         <View style={styles.stars}>
-            <Text style={styles.name}>Product Name</Text>
+            <Text style={styles.name}>{product.name}</Text>
             <View style={styles.rating}>
                 <Icon name="star" size={20} color="#FAFF00" />
                 <Icon name="star" size={20} color="#FAFF00" />
@@ -55,7 +90,7 @@ const ProductDetail = ({navigation}) => {
         <View style={styles.location}>
            
             <Text style={styles.locationText}>
-                    asdfasdfas sad fasdfasdf asdf asasdf asdfasd f sadfasdf asd fsadf
+                    PHP {product.price} per {product.unit == 1 ? '1 Kilo' : '100 grams'}
             </Text>
             <Icon name="heart-o" size={25} style={{marginLeft : 20}}  />
 
@@ -72,15 +107,7 @@ const ProductDetail = ({navigation}) => {
             contentContainerStyle={styles.contentContainer}
             showsVerticalScrollIndicator={false}
         >
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
-          <ReviewCard/>
+         <Text>No Review Available</Text>
 
 
 
