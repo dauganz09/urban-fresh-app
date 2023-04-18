@@ -3,9 +3,53 @@ import React from 'react'
 import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
 import useStore from '../../utils/appStore'
+import { FIRESTORE_DB } from '../../utils/firebaseConfig';
+import { addDoc, doc, setDoc,collection } from "firebase/firestore"; 
+import { useToast } from "react-native-toast-notifications";
 
-const UpdateProfile = () => {
+const UpdateProfile = ({navigation}) => {
     const user = useStore((state)=>state.user)
+    const setUserProfile = useStore((state)=>state.setUserProfile)
+    const toast = useToast();
+
+
+    const handleUpdate= async ()=>{
+        try {
+            const userRef = doc(FIRESTORE_DB, 'users',user.userid);
+          const res  = await setDoc(userRef,{
+            pic : user.pic,
+            fname: user.fname,
+            lname : user.lname,
+            email : user.email,
+            cpass : user.cpass,
+            mobile: user.mobile,
+            block: user.block,
+            barangay : user.barangay,
+            city : user.city,
+            province : user.province,
+            zipcode : user.zipcode,
+            userType : user.userType
+           
+        })
+        console.log(res)
+        toast.show('Profile Updated Successfully!!',{
+          type: "success",
+          placement: "bottom",
+          duration: 2000,
+          offset: 30,
+          animationType: "slide-in",
+        })
+          navigation.navigate('BuyerHome')
+        } catch (error) {
+          toast.show(error,{
+            type: "danger",
+            placement: "bottom",
+            duration: 2000,
+            offset: 30,
+            animationType: "slide-in",
+          })
+        }
+    }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -16,37 +60,37 @@ const UpdateProfile = () => {
             <Text style={styles.headerText}>Complete Name</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Firstname" text={user.fname} />
-      <Input label="Lastname" text={user.lname} />
+      <Input label="Firstname" onChangeText={(text)=>setUserProfile('fname',text)} text={user.fname} />
+      <Input label="Lastname" onChangeText={(text)=>setUserProfile('lname',text)} text={user.lname} />
       <View style={styles.header}>
             <Text style={styles.headerText}>Email Address</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Email Address" text={user.email} />
+      <Input label="Email Address" onChangeText={(text)=>setUserProfile('email',text)} text={user.email} />
       <View style={styles.header}>
             <Text style={styles.headerText}>Mobile Number</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Mobile Number" text={user.mobile}isVerify />
+      <Input label="Mobile Number" onChangeText={(text)=>setUserProfile('mobile',text)} text={user.mobile}isVerify />
       <View style={styles.header}>
             <Text style={styles.headerText}>Address</Text>
             <View style={styles.line}></View>
       </View>
-      <Input label="Street Name Building, House no" text={user.block || ''} />
-      <Input label="Barangay" text={user.barangay || ''} />
-      <Input label="City/Town" text={user.city || ''} />
-      <Input label="Provice" text={user.province || ''} />
-      <Input label="Zip Code" text={user.zipcode || ''} />
+      <Input label="Street Name Building, House no" onChangeText={(text)=>setUserProfile('block',text)} text={user.block || ''} />
+      <Input label="Barangay" onChangeText={(text)=>setUserProfile('barangay',text)} text={user.barangay || ''} />
+      <Input label="City/Town" onChangeText={(text)=>setUserProfile('city',text)} text={user.city || ''} />
+      <Input label="Provice" onChangeText={(text)=>setUserProfile('province',text)} text={user.province || ''} />
+      <Input label="Zip Code" onChangeText={(text)=>setUserProfile('zipcode',text)} text={user.zipcode || ''} />
       </ScrollView>
       <View style={styles.footer}>
-            <Button onPress={()=>navigation.navigate('UpdateProfile')} color={colors.primary} text="Update Profile" textColor="white"/>
+            <Button onPress={handleUpdate} color={colors.primary} text="Update Profile" textColor="white"/>
       </View>
     </SafeAreaView>
     
   )
 }
 
-const Input =({label,text,isVerify,isPassword,multiline})=>{
+const Input =({label,text,isVerify,isPassword,multiline,onChangeText})=>{
     const {width} = useWindowDimensions()
 
     const convertText=(text)=>{
@@ -59,7 +103,7 @@ const Input =({label,text,isVerify,isPassword,multiline})=>{
         <View style={{flex : 1}}>
             <Text style={styles.label}>{label}</Text>
         
-            <TextInput secureTextEntry={isPassword} style={styles.txtbox} value={text}/>
+            <TextInput secureTextEntry={isPassword} onChangeText={onChangeText} style={styles.txtbox} value={text}/>
         </View>
            { isVerify && <TouchableOpacity style={styles.modify}>
                 <Text style={styles.modifyText}>Send Code</Text>

@@ -10,6 +10,9 @@ const useStore = create((set,get) => ({
     currentStore : "",
     loading: false,
     hasErrors: false,
+    setUserProfile : (key,val)=>{
+      set((state) => ({ user: {...state.user,[key] : val}  }));
+    },
     fetchCart : async ()=>{
       set(() => ({ loading: true }));
       try {

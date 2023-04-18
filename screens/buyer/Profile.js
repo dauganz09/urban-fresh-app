@@ -5,6 +5,7 @@ import { colors } from '../../utils/constants'
 import userplaceholder from '../../assets/images/user.png'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native'
+import useStore from '../../utils/appStore'
 
 
 const links = [
@@ -31,7 +32,7 @@ const links = [
 ]
 
 const Profile = ({navigation}) => {
-  
+    const user = useStore((state)=>state.user)
   return (
    <SafeAreaView style={styles.container}>
     <Header onPress={()=>navigation.goBack()} />
@@ -48,8 +49,8 @@ const Profile = ({navigation}) => {
                     }}
                 />
                 <View style={styles.textBox}>  
-                    <Text style={styles.name}>Juan Dela Cruz</Text>
-                    <Text style={styles.address}>Complete Address: 123 Corner St. Barangay Province, City, Zip Code</Text>
+                    <Text style={styles.name}>{user.fname} {user.lname}</Text>
+                    <Text style={styles.address}>Complete Address: {user.block || ''} {user.barangay || ''} {user.province || ''}  {user.city || ''} {user.zipcode || ''}</Text>
 
                 </View>
 

@@ -1,11 +1,11 @@
-import { SafeAreaView, StyleSheet, Text, View,Image, TextInput,useWindowDimensions, TouchableOpacity } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View,ImageBackground, TextInput,useWindowDimensions, TouchableOpacity } from 'react-native'
 import React from 'react'
 import userplaceholder from '../../assets/images/user.png'
 import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
 import useStore from '../../utils/appStore'
 import { FIREBASE_AUTH } from '../../utils/firebaseConfig';
-
+import  Icon  from 'react-native-vector-icons/AntDesign'
 
 const ProfileView = ({navigation}) => {
     const user = useStore((state)=>state.user)
@@ -14,15 +14,19 @@ const ProfileView = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgBox}>
-                <Image 
+                <ImageBackground
                     source={userplaceholder}
                     resizeMode="cover"
                     style={{
                         width : 100,
                         height : 100,
-                        borderRadius : 50
+                        borderRadius : 50,
+                        position : 'relative'
                     }}
-                />
+                > <TouchableOpacity style={styles.icon}>
+                    <Icon  name="edit" size={30} color={colors.primary} />
+                </TouchableOpacity></ImageBackground>
+               
       </View>
       <Input label="Name" text={`${user.fname} ${user.lname}`} />
       <Input label="Email" text={user.email}  isVerified/>
@@ -79,7 +83,13 @@ const styles = StyleSheet.create({
         alignItems : 'center',
         justifyContent : 'center',
         paddingHorizontal :20,
-        paddingVertical : 20
+        paddingVertical : 20,
+        
+    },
+    icon :{
+        position : 'absolute',
+        bottom : 0,
+        right : 10
     },
     input :{
         marginVertical : 0,
@@ -136,9 +146,7 @@ const styles = StyleSheet.create({
         fontWeight : 'bold'
     },
     footer : {
-        position : 'fixed',
-        bottom : 0,
-        right : 0,
+       
         width : '100%',
         paddingBottom : 10,
         alignItems : 'center',
