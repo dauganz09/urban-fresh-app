@@ -5,10 +5,11 @@ import SellerStats from '../../components/SellerStats'
 import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
 import useStore from '../../utils/appStore'
-import { collection, query, where,getDocs  } from "firebase/firestore";
+import { collection, query, where,getDocs,doc,deleteDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import { useIsFocused } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign'
+import { useToast } from 'react-native-toast-notifications'
 
 const SellerHome = ({navigation}) => {
     const user = useStore((state)=>state.user)
@@ -41,6 +42,8 @@ const SellerHome = ({navigation}) => {
         });
         setProducts(prod_data)
     }
+
+    
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,11 +79,11 @@ const SellerHome = ({navigation}) => {
                         contentContainerStyle={{alignItems : 'center',justifyContent : 'center'}}
                     >
                         {
-                            !products && <Text style={styles.headerText}>No Products</Text>}
+                            products.length ==0 && <Text style={styles.headerText}>No Products</Text>}
 
                         {
                             products.map((prod,i)=>(
-                               <ProductCard key={i} {...prod} />
+                               <ProductCard navigation={navigation} getProducts={getProducts} key={i} {...prod} />
                             ))
                         }
                 
@@ -96,8 +99,28 @@ const SellerHome = ({navigation}) => {
   )
 }
 
-const ProductCard = ({pic,name,desc,price,unit,stock})=>{
+const ProductCard = ({pic,name,desc,price,unit,stock,prod_id,shipping,getProducts,navigation})=>{
     const {height,width} = useWindowDimensions()
+    const toast = useToast()
+
+    const handleDelete= async()=>{
+        try {
+            const res  = await deleteDoc(doc(FIRESTORE_DB, "products", prod_id)); 
+            
+            toast.show('Product Deleted!!',{
+                type: "success",
+                placement: "bottom",
+                duration: 2000,
+                offset: 30,
+                animationType: "slide-in",
+              })    
+              getProducts()
+              
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
         <View  style={[styles.card,{width : width * .95}]}>
         <Image 
@@ -115,8 +138,24 @@ const ProductCard = ({pic,name,desc,price,unit,stock})=>{
                 <Text style={styles.price}>Stock: {stock}</Text>
         </View>
         <View style={styles.actions}>
+            <TouchableOpacity onPress={()=>navigation.navigate('EditProduct',
+                {
+                    prod_id,
+                    name,
+                    desc,
+                    unit,
+                    price,
+                    stock,
+                    shipping,
+                    pic
+
+            })}>
                 <Icon name="edit" size={30} color={colors.primary} />
+            </TouchableOpacity>
+               <TouchableOpacity onPress={handleDelete}>
                 <Icon name="delete" size={30} color={colors.primary} />
+               </TouchableOpacity>
+               
         </View>
       
     </View>

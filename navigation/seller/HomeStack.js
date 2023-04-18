@@ -10,6 +10,7 @@ import Favorites from '../../screens/buyer/Favorites';
 import SellerHome from '../../screens/seller/SellerHome';
 import AddProduct from '../../screens/seller/AddProduct';
 import { colors } from '../../utils/constants';
+import EditProduct from '../../screens/seller/EditProduct';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,12 @@ export default function HomeStack() {
   <Stack.Screen name="SellerHome" component={SellerHome} options={{headerShown : false}}/>
   <Stack.Screen name="AddProduct" component={AddProduct} options={{
         title : 'Profile',
+        headerStyle :{backgroundColor : colors.primary},
+        headerTitleStyle : {color : 'white'},
+        headerTitleAlign : 'left',
+        headerTintColor: 'white',}}/>
+        <Stack.Screen name="EditProduct" component={EditProduct} options={{
+        title : 'Edit Profile',
         headerStyle :{backgroundColor : colors.primary},
         headerTitleStyle : {color : 'white'},
         headerTitleAlign : 'left',
