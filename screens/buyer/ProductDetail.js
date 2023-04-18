@@ -22,6 +22,7 @@ const ProductDetail = ({route,navigation}) => {
     const { prod } = route.params;
     // const docRef = doc(FIRESTORE_DB, "products", prodid);
     const [product,setProduct] = useState(prod)
+    const [count,setCount] = useState(0) 
 
     useLayoutEffect(() => {
        console.log(product)
@@ -45,7 +46,7 @@ const ProductDetail = ({route,navigation}) => {
 
     const getImages = ()=>{
         console.log(product.pic)
-            if(product.pic.length==0) return {img : product.pic}
+            if(product.pic.length===0) return {img : product.pic}
 
             const pics = product.pic.map((img)=>{
                 return {
@@ -92,6 +93,9 @@ const ProductDetail = ({route,navigation}) => {
             <Text style={styles.locationText}>
                     PHP {product.price} per {product.unit == 1 ? '1 Kilo' : '100 grams'}
             </Text>
+            <Text style={styles.locationText}>
+                    Stock: {product.stock}
+            </Text>
             <Icon name="heart-o" size={25} style={{marginLeft : 20}}  />
 
 
@@ -123,7 +127,7 @@ const ProductDetail = ({route,navigation}) => {
                     <Text style={styles.num}>+</Text>
                 </TouchableOpacity>
             </View>
-           <Button textColor="white" text="Add to Cart" color={colors.primary}/>
+           <Button onPress={()=>console.log("pressed")} disabled={product.stock == 0} textColor="white" text="Add to Cart" color={colors.primary}/>
        
         </Shadow>
     

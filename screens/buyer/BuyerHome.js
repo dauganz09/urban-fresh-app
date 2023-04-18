@@ -1,5 +1,5 @@
 import { ImageBackground, SafeAreaView, StyleSheet, Text, View,Pressable, Image, TouchableOpacity, FlatList,ScrollView } from 'react-native'
-import React from 'react'
+import React,{useLayoutEffect} from 'react'
 import { colors } from '../../utils/constants'
 import Header from '../../components/Header'
 import bg from '../../assets/images/seller.jpg'
@@ -27,7 +27,16 @@ import useStore from '../../utils/appStore'
 
 const BuyerHome = ({navigation}) => {
   const user = useStore((state)=>state.user)
+  const fetchCart = useStore((state)=>state.fetchCart)
+ 
   console.log(user)
+
+  useLayoutEffect(() => {
+      fetchCart()
+     
+  }, [])
+  
+
   return (
     <SafeAreaView style={styles.container}>
      

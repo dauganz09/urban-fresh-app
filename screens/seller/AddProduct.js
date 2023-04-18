@@ -117,7 +117,7 @@ const AddProduct = ({navigation}) => {
 
 
     const handlePublish = async ()=>{
-      if(user.userType === "3" && product.stock < 10){
+      if(user.userType === 3 && product.stock < 10){
         toast.show('Minimum of 10 Kilos Allowed for user account type',{
             type: "danger",
             placement: "bottom",
@@ -129,7 +129,7 @@ const AddProduct = ({navigation}) => {
           return;
     }
 
-    if(user.userType === "2" && (product.stock < 100 || product.stock > 10000)){
+    if(user.userType === 2 && (product.stock < 100 || product.stock > 10000)){
         toast.show('Minimum of 100 Grams and Maximum of 10 Kilos Allowed for user account type',{
             type: "danger",
             placement: "bottom",
@@ -147,10 +147,10 @@ const AddProduct = ({navigation}) => {
         pic : product.pic,
         name : product.name,
         desc : product.desc,
-        unit : product.unit,
-        price : product.price,
-        stock : product.stock,
-        shipping : product.shipping
+        unit : Number(product.unit),
+        price : Number(product.price),
+        stock : Number(product.stock),
+        shipping : Number(product.shipping)
     })
     console.log(res)
     toast.show('Product Published Successfully!!',{
@@ -203,12 +203,12 @@ const AddProduct = ({navigation}) => {
       </View>
       <View style={styles.input}>
            <Text>Description</Text>
-           <TextInput onChangeText={(text)=>setProduct({...product,['desc']:text})} style={[styles.textBox,{height : 40}]}  value={product.desc} placeholder='Product Name' multiline={true} />
+           <TextInput onChangeText={(text)=>setProduct({...product,['desc']:text})} style={[styles.textBox,{height : 40}]}  value={product.desc} placeholder='Product Description' multiline={true} />
       </View>
       <View style={styles.input}>
            <Text>Unit</Text>
     {  
-      user.userType === "3" ?  <Text>Per 1 Kilo</Text> :
+      user.userType === 3 ?  <Text>Per 1 Kilo</Text> :
     <SelectList  boxStyles={[styles.textBox,{height : 40,width : 170}]} defaultOption={product?.unit==1 ? {key : 1,value : 'per 1 Kilo'} :{key : 2,value : 'per 100 grams'}} setSelected={onChangeType} save="key"  search={false} data={data} placeholder="Unit"  />}
       </View>
       <View style={styles.input}>

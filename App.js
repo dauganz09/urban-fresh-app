@@ -30,7 +30,7 @@ export default function App() {
   return (
     <ToastProvider>
     <NavigationContainer>
-    <Stack.Navigator initialRouteName="Splash">
+    <Stack.Navigator initialRouteName="Login">
        <Stack.Screen name="Splash" component={Splash} options={{headerShown: false}} />
        <Stack.Screen name="Loading" component={Loading} options={{headerShown: false}} />
       

@@ -1,13 +1,62 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View,useWindowDimensions } from 'react-native'
-import React from 'react'
+import React,{useState,useLayoutEffect} from 'react'
 import fallback from '../assets/images/fallback.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../utils/constants';
+import useStore from '../utils/appStore';
+import { useToast } from "react-native-toast-notifications";
 
-const ProductCard = ({onPress,name,desc,price,stock,unit,pic}) => {
+const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname}) => {
     const {width} = useWindowDimensions()
+    const addToCart = useStore((state)=>state.addToCart)
+    const fetchCart = useStore((state)=>state.fetchCart)
+    const user = useStore((state)=>state.user)
+    const cart = useStore((state)=>state.cart)
+    const currentStore = useStore((state)=>state.currentStore)
+    const toast = useToast()
+    const [inCart,setinCart] = useState(false)
+    const [cartid,setCardid] = useState([])
+
+
+    useLayoutEffect(() => {
+      checkCart()
+    }, [])
+
+    const checkCart= ()=>{
+       cart.map((c)=>{
+         if(c.product_id == prod_id) setinCart(true)
+       })
+
+    }
+
+   const handleAddToCart = ()=>{
+    if(currentStore == "" || currentStore == sname){
+        addToCart(prod_id,user.userid,0,sname)
+        console.log("added to cart")
+        toast.show('Product Added to Cart!',{
+            type: "success",
+            placement: "bottom",
+            duration: 2000,
+            offset: 30,
+            animationType: "slide-in",
+        })
+        fetchCart()
+
+    }else{
+        toast.show('You must add items from the same store!',{
+            type: "danger",
+            placement: "bottom",
+            duration: 2000,
+            offset: 30,
+            animationType: "slide-in",
+        })
+    }
+    
+   }
+       
+    
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.card,{width : width * .95}]}>
+    <TouchableOpacity  onPress={onPress} style={[styles.card,{width : width * .95}]}>
         <Image 
             source={pic[0] || fallback}
             resizeMode='cover'
@@ -23,8 +72,8 @@ const ProductCard = ({onPress,name,desc,price,stock,unit,pic}) => {
                 <Text style={styles.price}>Stock: {stock}</Text>
         </View>
         <View style={styles.heart}>
-            <Icon name="heart-o" size={25} />
-            <TouchableOpacity style={styles.add}><Text style={{fontSize : 14,lineHeight : 14,color : 'white'}}>Add</Text></TouchableOpacity>
+            <TouchableOpacity><Icon name="heart-o" size={25} /></TouchableOpacity>
+            {inCart ? <Text>Already in Cart</Text>: <TouchableOpacity disabled={stock==0} onPress={handleAddToCart} style={styles.add}><Text style={{fontSize : 14,lineHeight : 14,color : 'white'}}>Add</Text></TouchableOpacity>}
         </View>
     </TouchableOpacity>
   )

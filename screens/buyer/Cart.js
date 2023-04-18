@@ -1,5 +1,5 @@
-import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions, TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions, TouchableOpacity,ActivityIndicator } from 'react-native'
+import React,{useState,useLayoutEffect} from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
 import fallback from '../../assets/images/fallback.png'
@@ -8,13 +8,22 @@ import Icon2 from 'react-native-vector-icons/AntDesign'
 import ProductCard from '../../components/ProductCard'
 import CartItem from '../../components/CartItem'
 import Button from '../../components/Button'
+import useStore from '../../utils/appStore'
 
 
 
 const Cart = ({navigation}) => {
 
     const [isDeleting,setIsDeleting] =useState(false)
+    const fetchCart = useStore((state)=>state.fetchCart)
+    const cart = useStore((state)=>state.cart)
+    const loading = useStore((state)=>state.loading)
+    const setCurrentStore = useStore((state)=>state.setCurrentStore)
 
+    useLayoutEffect(() => {
+      
+     setCurrentStore()
+    },[])
     
   return (
     <SafeAreaView style={styles.container}>
@@ -22,10 +31,10 @@ const Cart = ({navigation}) => {
         <View style={styles.cartBox}>
           <View style={{width:30,marginHorizontal : 20}}></View>
             <Text style={styles.title}>Cart</Text>
-            {isDeleting  && <TouchableOpacity onPress={()=>setIsDeleting(!isDeleting)}>
+            {isDeleting  && <TouchableOpacity onPress={()=>setIsDeleting(false)}>
                 <Icon2 name="close" size={30} color='black' style={{marginHorizontal:20}}/>
               </TouchableOpacity> }
-             { !isDeleting && <TouchableOpacity onPress={()=>setIsDeleting(!isDeleting)}>
+             { !isDeleting && <TouchableOpacity onPress={()=>setIsDeleting(true)}>
                 <Icon name="edit" size={30} color='black' style={{marginHorizontal:20}}/>
               </TouchableOpacity>}
              
@@ -35,10 +44,16 @@ const Cart = ({navigation}) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
         >
-              <CartItem isDeleting={isDeleting}/>
-              <CartItem isDeleting={isDeleting}/>
-              <CartItem isDeleting={isDeleting}/>
-              <CartItem isDeleting={isDeleting}/>
+           {loading && <ActivityIndicator style={styles.indicator} animating={loading} size="large" color='#21C622'/>}
+
+          {
+            cart.length == 0 ? <Text>No Items on Cart!</Text>
+            :
+            <CartItem cart={cart} setIsDeleting={setIsDeleting} isDeleting={isDeleting}  />
+            
+             
+          }
+             
         </ScrollView>
 
         <View style={styles.btnBox}>
@@ -87,5 +102,14 @@ const styles = StyleSheet.create({
       alignItems : 'center',
       justifyContent : 'center',
       backgroundColor : 'white'
-    }
+    },
+    indicator : {
+      position: 'absolute',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      left: 0,
+      right: 0,
+      top: 100,
+     
+    },
 })

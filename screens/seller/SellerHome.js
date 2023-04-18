@@ -8,6 +8,7 @@ import useStore from '../../utils/appStore'
 import { collection, query, where,getDocs  } from "firebase/firestore";
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import { useIsFocused } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/AntDesign'
 
 const SellerHome = ({navigation}) => {
     const user = useStore((state)=>state.user)
@@ -16,17 +17,21 @@ const SellerHome = ({navigation}) => {
     const productRef = collection(FIRESTORE_DB, "products");
     const [products,setProducts] = useState([])
     const isFocused = useIsFocused();
-  
+   
+    
 
     useLayoutEffect(() => {
         getProducts()
+       
     
      
     }, [tab,isFocused])
 
     const getProducts = async ()=>{
         // Create a query against the collection.
-        const q = query(productRef, where("userId", "==",user.userid));
+        const condition = tab == 'l' ? ">" : "==" 
+
+        const q = query(productRef, where("userId", "==",user.userid),where("stock",condition,0));
         const querySnapshot = await getDocs(q);
         const prod_data = []
         querySnapshot.forEach((doc) => {
@@ -94,7 +99,7 @@ const SellerHome = ({navigation}) => {
 const ProductCard = ({pic,name,desc,price,unit,stock})=>{
     const {height,width} = useWindowDimensions()
     return (
-        <TouchableOpacity  style={[styles.card,{width : width * .95}]}>
+        <View  style={[styles.card,{width : width * .95}]}>
         <Image 
             source={pic[0]}
             resizeMode='cover'
@@ -109,8 +114,12 @@ const ProductCard = ({pic,name,desc,price,unit,stock})=>{
                 <Text style={styles.price}>PHP {price} per {unit ? 'Kilo' : '100 grams'}</Text>
                 <Text style={styles.price}>Stock: {stock}</Text>
         </View>
+        <View style={styles.actions}>
+                <Icon name="edit" size={30} color={colors.primary} />
+                <Icon name="delete" size={30} color={colors.primary} />
+        </View>
       
-    </TouchableOpacity>
+    </View>
     )
 }
 
@@ -204,4 +213,11 @@ const styles = StyleSheet.create({
         fontSize : 14,
         lineHeight : 20,
     },
+    actions : {
+        flexDirection : 'row',
+        alignItems : 'center',
+        justifyContent : 'space-evenly',
+        width : 100,
+       
+    }
 })

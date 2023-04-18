@@ -7,8 +7,10 @@ import fallback from '../../assets/images/fallback.png'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/Entypo';
 import ProductCard from '../../components/ProductCard'
-import { collection, query, where,getDocs,doc, getDoc  } from "firebase/firestore";
+import { collection, query, where,getDocs,getDoc,addDoc, doc, setDoc} from "firebase/firestore";
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
+import useStore from '../../utils/appStore'
+import { useIsFocused } from '@react-navigation/native';
 
 
 const SellerProfile = ({route,navigation}) => {
@@ -17,12 +19,14 @@ const SellerProfile = ({route,navigation}) => {
     const docRef = doc(FIRESTORE_DB, "users", sellerid);
     const [store,setStore] = useState({})
     const [products,setProducts] = useState([])
+    const cart =  useStore((state)=>state.cart)
+    const isFocused = useIsFocused();
 
     useLayoutEffect(() => {
       getStoreProfile();
     
 
-    }, [])
+    }, [isFocused])
 
 
    const  getStoreProfile=async()=>{
@@ -52,7 +56,10 @@ if (docSnap.exists()) {
         prod_data.push({...doc.data(),prod_id : doc.id})
         });
         setProducts(prod_data)
+        console.log(prod_data)
     }
+
+
     
   return (
     <SafeAreaView style={styles.container}>
@@ -103,7 +110,7 @@ if (docSnap.exists()) {
               {
                 products.length == 0 ? <Text>No Products Available!!</Text> :
                 products.map((prod,i)=>(
-                    <ProductCard key={i} {...prod} onPress={()=>navigation.navigate('ProductDetail',{prod: prod})} />
+                    <ProductCard key={i} sname={store.storename} {...prod}  onPress={()=>navigation.navigate('ProductDetail',{prod: prod})} />
                 ))
               }
 
