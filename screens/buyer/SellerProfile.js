@@ -1,5 +1,5 @@
 import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions } from 'react-native'
-import React,{useState,useLayoutEffect} from 'react'
+import React,{useState,useLayoutEffect,useFocusEffect} from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
 import SellerCard from '../../components/SellerCard'
@@ -20,13 +20,17 @@ const SellerProfile = ({route,navigation}) => {
     const [store,setStore] = useState({})
     const [products,setProducts] = useState([])
     const cart =  useStore((state)=>state.cart)
+    const [inCart,setIncart] = useState(false)
     const isFocused = useIsFocused();
+    const setStoreid = useStore((state)=>state.setStoreid)
 
     useLayoutEffect(() => {
       getStoreProfile();
     
 
     }, [isFocused])
+
+   
 
 
    const  getStoreProfile=async()=>{
@@ -35,6 +39,7 @@ const SellerProfile = ({route,navigation}) => {
     
 if (docSnap.exists()) {
     console.log(docSnap.id, docSnap.data());
+    setStoreid(docSnap.id)
     setStore(docSnap.data())
     getStoreProducts(docSnap.id)
   } else {
@@ -110,7 +115,7 @@ if (docSnap.exists()) {
               {
                 products.length == 0 ? <Text>No Products Available!!</Text> :
                 products.map((prod,i)=>(
-                    <ProductCard key={i} sname={store.storename} {...prod}  onPress={()=>navigation.navigate('ProductDetail',{prod: prod})} />
+                    <ProductCard key={i} sname={store.storename} {...prod}  onPress={()=>navigation.navigate('ProductDetail',{prod: prod,store : store.storename})} />
                 ))
               }
 

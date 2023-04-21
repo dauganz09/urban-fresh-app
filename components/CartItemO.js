@@ -8,7 +8,7 @@ import { FIRESTORE_DB } from '../utils/firebaseConfig'
 import useStore from '../utils/appStore'
 import { useToast } from 'react-native-toast-notifications'
 
-const CartItem = ({isDeleting,cart,setIsDeleting}) => {
+const CartItemO = ({isDeleting,cart,setIsDeleting}) => {
     const [name,setName] = useState("")
     const currentStore = useStore((state)=>state.currentStore)
     
@@ -173,29 +173,17 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
         <View style={styles.info}>
                 <Text style={styles.name}>{name}</Text>
                 <Text style={styles.desc}>{desc}</Text>
-                <Text style={styles.price}>PHP {price} per {unit == 1? 'Kilo' : '100 grams'}</Text>
-                <Text style={styles.price}>{stock} stocks remaining</Text>
+                <Text style={styles.price}>Price : {price}</Text>
+                <Text style={styles.price}>Quantity : {count}</Text>
+                <Text style={styles.price}>Subtotal : PHP {price * unit}</Text>
+               
         </View>
-        <View style={styles.heart}>
-            {
-                isDeleting ? <TouchableOpacity onPress={handleDelete}><Icon name="delete" size={30} color="#FF0000" /></TouchableOpacity> : 
-                <View style={styles.actions}>
-                    <TouchableOpacity onPress={()=>handleDecrement(prod)}>
-                        <Icon name="minus" size={20}/>
-                    </TouchableOpacity>
-                  
-                    <Text style={styles.num}>{count}</Text>
-                    <TouchableOpacity onPress={()=>handleIncrement(prod)}>
-                        <Icon name="plus" size={20}/>
-                    </TouchableOpacity>
-                </View>
-            }
-        </View>
+        
     </View>
     )
 }
 
-export default CartItem
+export default CartItemO
 
 const styles = StyleSheet.create({
     card :{

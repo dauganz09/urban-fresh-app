@@ -28,12 +28,13 @@ import useStore from '../../utils/appStore'
 const BuyerHome = ({navigation}) => {
   const user = useStore((state)=>state.user)
   const fetchCart = useStore((state)=>state.fetchCart)
+  const getTotalPrice = useStore((state)=>state.getTotalPrice)
  
-  console.log(user)
+  
 
   useLayoutEffect(() => {
       fetchCart()
-     
+      getTotalPrice()
   }, [])
   
 

@@ -15,23 +15,35 @@ const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname}) => 
     const currentStore = useStore((state)=>state.currentStore)
     const toast = useToast()
     const [inCart,setinCart] = useState(false)
-    const [cartid,setCardid] = useState([])
+    
+    
+   
 
 
     useLayoutEffect(() => {
-      checkCart()
+      checkCart(prod_id)
     }, [])
 
-    const checkCart= ()=>{
-       cart.map((c)=>{
-         if(c.product_id == prod_id) setinCart(true)
-       })
-
-    }
+    const checkCart = (prod_id) => {
+        const res =  cart.some((item) => item.prod_id == prod_id);
+        console.log({checkcart : res})
+        if(res){
+            setinCart(prev=>!prev)
+        }
+        
+      };
 
    const handleAddToCart = ()=>{
     if(currentStore == "" || currentStore == sname){
-        addToCart(prod_id,user.userid,0,sname)
+        if(cart.some((item) => item.prod_id == prod_id)) return toast.show('Product already in cart!',{
+            type: "danger",
+            placement: "bottom",
+            duration: 2000,
+            offset: 30,
+            animationType: "slide-in",
+        })
+
+        addToCart(prod_id,user.userid,0,sname,pic,unit,stock,price,name,desc)
         console.log("added to cart")
         toast.show('Product Added to Cart!',{
             type: "success",
