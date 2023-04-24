@@ -3,7 +3,7 @@ import React,{useState,useLayoutEffect} from 'react'
 import fallback from '../assets/images/fallback.png'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { colors } from '../utils/constants'
-import { doc, getDoc,deleteDoc,setDoc,arrayUnion,arrayRemove  } from "firebase/firestore";
+import { doc, getDoc,deleteDoc,setDoc,arrayUnion,arrayRemove,deleteField, updateDoc  } from "firebase/firestore";
 import { FIRESTORE_DB } from '../utils/firebaseConfig'
 import useStore from '../utils/appStore'
 import { useToast } from 'react-native-toast-notifications'
@@ -121,9 +121,10 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
             //     count: prod.count + 1,
             //   };
               const res = await setDoc(doc(FIRESTORE_DB,"cart",user.userid),{
+                cart_items : deleteField(),
                 cart_items: arrayUnion(...newCart)
                
-            })
+            },{merge :true})
             setCartItems(newCart)
             getTotalPrice()
         } catch (error) {
@@ -134,7 +135,8 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
 
     const handleIncrement=async (prod)=>{
         console.log(prod)
-        const newCart = cartItems.map((item)=>{
+        let currIndex;
+        const newCart = cartItems.map((item,i)=>{
             if(item.prod_id == prod_id){
                 return {...item,count : item.count + 1}
             }else{
@@ -146,10 +148,11 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
             //     ...prod,
             //     count: prod.count + 1,
             //   };
-              const res = await setDoc(doc(FIRESTORE_DB,"cart",user.userid),{
+              const res = await updateDoc(doc(FIRESTORE_DB,"cart",user.userid),{
+                cart_items : deleteField(),
                 cart_items: arrayUnion(...newCart)
                
-            })
+            },{merge :true})
             setCartItems(newCart)
             getTotalPrice()
         } catch (error) {

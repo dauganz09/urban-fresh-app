@@ -90,7 +90,7 @@ setStoreid : (id)=>{
           const cartRef = doc(FIRESTORE_DB,"cart",get().user.userid)
           const docSnap = await getDoc(cartRef);
           if (docSnap.exists()) {
-            // console.log("Document data:", docSnap.data());
+            console.log("Document data:", docSnap.data());
             const data = docSnap.data();
             console.log(data.cart_items)
             
