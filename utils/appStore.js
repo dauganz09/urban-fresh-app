@@ -22,7 +22,7 @@ const useStore = create((set,get) => ({
           orders : [...cart],
           storename : get().currentStore,
           address : get().user,
-          date: serverTimestamp
+          date: serverTimestamp()
          
       },{merge:true})
 
