@@ -15,6 +15,7 @@ const useStore = create((set,get) => ({
     hasErrors: false,
     addOrders : async (cart,storeid)=>{
       console.log(storeid)
+      console.log(get().currentStore)
       try {
         const res = await setDoc(doc(FIRESTORE_DB,"orders",storeid),{
           user_id : get().user.userid,
@@ -92,11 +93,13 @@ setStoreid : (id)=>{
             // console.log("Document data:", docSnap.data());
             const data = docSnap.data();
             console.log(data.cart_items)
+            
             if(data){
               set((state) => ({ cart: [...data.cart_items]}));
               set(() => ({ currentStore: data.store}))
               set(() => ({ loading: false }));
             }
+            console.log(data.store)
            
           } else {
             // doc.data() will be undefined in this case
@@ -127,7 +130,8 @@ setStoreid : (id)=>{
           try {
             const res = await setDoc(doc(FIRESTORE_DB,"cart",user_id),{
               cart_items : arrayUnion(item),
-              store : sname
+              store : sname,
+              storeid : get().storeid
              
           },{merge:true})
 
