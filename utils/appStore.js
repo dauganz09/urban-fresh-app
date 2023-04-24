@@ -97,6 +97,7 @@ setStoreid : (id)=>{
             if(data){
               set((state) => ({ cart: [...data.cart_items]}));
               set(() => ({ currentStore: data.store}))
+              set(() => ({ storeid: data.storeid}))
               set(() => ({ loading: false }));
             }
             console.log(data.store)
@@ -106,6 +107,7 @@ setStoreid : (id)=>{
             console.log("Cart Empty");
             set((state) => ({ cart: (state.cart = [])  }));
               set(() => ({ currentStore: ""}))
+              set(() => ({ storeid: ""}))
               set(() => ({ loading: false }));
           }
       } catch (error) {

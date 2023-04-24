@@ -64,6 +64,8 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
     const cartItems = useStore((state)=>state.cart)
     const resetCurrentStore = useStore((state)=>state.resetCurrentStore)
     const user = useStore((state)=>state.user)
+    const currentStore = useStore((state)=>state.currentStore)
+    const storeid = useStore((state)=>state.storeid)
     const toast = useToast()
 
     useLayoutEffect(() => {
@@ -121,10 +123,11 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
             //     count: prod.count + 1,
             //   };
               const res = await setDoc(doc(FIRESTORE_DB,"cart",user.userid),{
-                cart_items : deleteField(),
-                cart_items: arrayUnion(...newCart)
+                cart_items: arrayUnion(...newCart),
+                store : currentStore,
+                storeid : storeid
                
-            },{merge :true})
+            })
             setCartItems(newCart)
             getTotalPrice()
         } catch (error) {
@@ -138,6 +141,7 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
         let currIndex;
         const newCart = cartItems.map((item,i)=>{
             if(item.prod_id == prod_id){
+                currIndex = i
                 return {...item,count : item.count + 1}
             }else{
                 return item
@@ -148,11 +152,12 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
             //     ...prod,
             //     count: prod.count + 1,
             //   };
-              const res = await updateDoc(doc(FIRESTORE_DB,"cart",user.userid),{
-                cart_items : deleteField(),
-                cart_items: arrayUnion(...newCart)
+              const res = await setDoc(doc(FIRESTORE_DB,"cart",user.userid),{
+                cart_items: arrayUnion(...newCart),
+                store : currentStore,
+                storeid : storeid
                
-            },{merge :true})
+            })
             setCartItems(newCart)
             getTotalPrice()
         } catch (error) {
