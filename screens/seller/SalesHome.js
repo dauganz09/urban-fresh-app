@@ -5,12 +5,12 @@ import useStore from '../../utils/appStore'
 import Header from '../../components/Header'
 import Icon from 'react-native-vector-icons/AntDesign';
 
-const SalesHome = () => {
+const SalesHome = ({navigation}) => {
     const user = useStore((state)=>state.user)
 
   return (
     <SafeAreaView style={styles.container}>
-        <TouchableOpacity style={styles.linkBox}>
+        <TouchableOpacity style={styles.linkBox} onPress={()=>navigation.navigate('UnpaidOrders')}>
             <Text style={styles.linkText}>Unpaid</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
