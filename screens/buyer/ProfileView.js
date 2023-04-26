@@ -4,21 +4,78 @@ import userplaceholder from '../../assets/images/user.png'
 import { colors } from '../../utils/constants'
 import Button from '../../components/Button'
 import useStore from '../../utils/appStore'
-import { FIREBASE_AUTH } from '../../utils/firebaseConfig';
+import {STORAGE,FIRESTORE_DB } from '../../utils/firebaseConfig';
 import  Icon  from 'react-native-vector-icons/AntDesign'
+import { useToast } from 'react-native-toast-notifications'
+import * as ImagePicker from 'expo-image-picker';
+import { ref, uploadString,getDownloadURL} from "firebase/storage";
+import randomstring from 'randomstring'
+import { doc, setDoc} from "firebase/firestore"; 
 
 const ProfileView = ({navigation}) => {
     const user = useStore((state)=>state.user)
+    const setUserProfile = useStore((state)=>state.setUserProfile)
+    const toast = useToast()
+
+    const pickImage = async  () => {
+       
+        // No permissions request is necessary for launching the image library
+        let result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
+    
+       console.log(user)
+    
+        if (result.assets[0].uri) {
+         
+          const name = randomstring.generate({
+            length: 10,
+            charset: 'alphabetic'
+          })
+         
+          const storageRef = ref(STORAGE,`users/${name}`)
+          const snapshot =  await uploadString(storageRef,result.assets[0].uri,'data_url')
+          console.log(snapshot)
+          const url = await getDownloadURL(storageRef)
+          
+          try {
+            // const updatedCartItem = {
+            //     ...prod,
+            //     count: prod.count + 1,
+            //   };
+              const res = await setDoc(doc(FIRESTORE_DB,"users",user.userid),{
+                pic : url
+               
+            },{ merge: true })
+            setUserProfile("pic",url)
+            toast.show('Profile Pic Updated!!',{
+                type: "success",
+                placement: "bottom",
+                duration: 2000,
+                offset: 30,
+                animationType: "slide-in",
+              })    
+    
+            navigation.navigate('BuyerHome')
+        } catch (error) {
+            console.log(error)
+        }
+            
+        }
+}
 
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.imgBox}>
                 <ImageBackground
-                    source={userplaceholder}
+                    source={user.pic || userplaceholder}
                     resizeMode="cover"
                     style={styles.img}
-                ><TouchableOpacity style={styles.icon}>
+                ><TouchableOpacity onPress={pickImage} style={styles.icon}>
                     <Icon  name="edit" size={30} color={colors.primary} />
                 </TouchableOpacity>
                 </ImageBackground>

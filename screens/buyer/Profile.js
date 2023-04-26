@@ -10,6 +10,7 @@ import { useToast } from 'react-native-toast-notifications'
 
 
 const Profile = ({navigation}) => {
+    
 const toast = useToast()
     
 const links = [
@@ -53,7 +54,7 @@ const links = [
             <Text style={styles.title}>User Account</Text>
             <View style={styles.imgBox}>
                 <Image 
-                    source={userplaceholder}
+                    source={user.pic || userplaceholder}
                     resizeMode="cover"
                     style={{
                         width : 100,
