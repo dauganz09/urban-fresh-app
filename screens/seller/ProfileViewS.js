@@ -74,12 +74,7 @@ const ProfileViewS = ({navigation}) => {
                 <ImageBackground
                     source={user.pic || userplaceholder}
                     resizeMode="cover"
-                    style={{
-                        width : 100,
-                        height : 100,
-                        borderRadius : 50,
-                        position : 'relative'
-                    }}
+                    style={styles.img}
                 > <TouchableOpacity onPress={pickImage} style={styles.icon}>
                     <Icon  name="edit" size={30} color={colors.primary} />
                 </TouchableOpacity></ImageBackground>
@@ -133,6 +128,12 @@ const styles = StyleSheet.create({
         flex :1,
         backgroundColor : 'white',
         paddingHorizontal : 10,
+        position : 'relative'
+    },
+    img :{
+        width : 100,
+        height : 100,
+        borderRadius : 50,
         position : 'relative'
     },
     imgBox :{

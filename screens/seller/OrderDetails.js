@@ -145,9 +145,7 @@ const handleDelivered = async (orderid)=>{
             order.status == 0 && <Button text="Paid" color={colors.primary} textColor="white" onPress={()=>handlePaid(order.orderid)}/>
        }
 
-        {
-            order.status == 1 && <Button text="Parcel Delivered" color={colors.primary} textColor="white" onPress={()=>handleDelivered(order.orderid)}/>
-       }
+        
     </View>
       
        

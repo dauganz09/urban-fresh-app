@@ -48,18 +48,18 @@ const getTotalShipping=()=>{
 }
 
 
-const handlePaid = async (orderid)=>{
+const handleDelivered = async (orderid)=>{
     try {
         // const updatedCartItem = {
         //     ...prod,
         //     count: prod.count + 1,
         //   };
           const res = await setDoc(doc(FIRESTORE_DB,"orders",orderid),{
-            status : 1
+            status : 2
            
         },{ merge: true })
 
-        toast.show('Order Status Updated',{
+        toast.show('Order Completed',{
             type: "success",
             placement: "bottom",
             duration: 2000,
@@ -67,7 +67,7 @@ const handlePaid = async (orderid)=>{
             animationType: "slide-in",
           })    
 
-        navigation.navigate('SalesHome')
+        navigation.navigate('BuyerHome')
     } catch (error) {
         console.log(error)
     }
@@ -134,7 +134,11 @@ const handleCancel = async (orderid)=>{
     </View>
     <View style={{width : '100%',flexDirection : 'row',alignItems :'center',justifyContent : 'center',marginTop : 50}}>
          {
-            (order.status == 0 || order.status == 1) && <Button text="Cancel" color={colors.primary} textColor="white" onPress={()=>handleCancel(order.orderid)}/>
+            (order.status == 0) && <Button text="Cancel" color={colors.primary} textColor="white" onPress={()=>handleCancel(order.orderid)}/>
+       }
+
+        {
+            (order.status == 1) && <Button text="Item Delivered" color={colors.primary} textColor="white" onPress={()=>handleDelivered(order.orderid)}/>
        }
 
       

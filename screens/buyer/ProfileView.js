@@ -17,17 +17,13 @@ const ProfileView = ({navigation}) => {
                 <ImageBackground
                     source={userplaceholder}
                     resizeMode="cover"
-                    style={{
-                        width : 100,
-                        height : 100,
-                        borderRadius : 50,
-                        position : 'relative'
-                    }}
-                > <TouchableOpacity style={styles.icon}>
+                    style={styles.img}
+                ><TouchableOpacity style={styles.icon}>
                     <Icon  name="edit" size={30} color={colors.primary} />
-                </TouchableOpacity></ImageBackground>
+                </TouchableOpacity>
+                </ImageBackground>
                
-      </View>
+                </View>
       <Input label="Name" text={`${user.fname} ${user.lname}`} />
       <Input label="Email" text={user.email}  isVerified/>
       <Input label="Password" text={user.cpass} isPassword isModify/>
@@ -76,6 +72,12 @@ const styles = StyleSheet.create({
         flex :1,
         backgroundColor : 'white',
         paddingHorizontal : 10,
+        position : 'relative'
+    },
+    img:{
+        width : 100,
+        height : 100,
+        borderRadius : 50,
         position : 'relative'
     },
     imgBox :{
