@@ -6,16 +6,19 @@ import { collection, query, where,getDocs } from "firebase/firestore";
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import Header from '../../components/Header'
 import useStore from '../../utils/appStore';
+import { useIsFocused } from '@react-navigation/native';
+
 
 const TransactionHome = ({navigation}) => {
     const user = useStore((state)=>state.user)
 
 
     const [transactions,setTransactions] = useState([]);
+    const isFocused = useIsFocused();
 
     useEffect(() => {
       getOrders()
-      },[])
+      },[isFocused])
     
 
     const getOrders = async  ()=>{
@@ -50,7 +53,7 @@ const TransactionHome = ({navigation}) => {
        {
         transactions.length > 0 &&
         transactions.map((t,i)=>(
-            <OrderCard key={i} {...t} />
+            <OrderCard key={i} {...t} o={t} navigation={navigation}/>
         ))
        }
 
@@ -58,7 +61,7 @@ const TransactionHome = ({navigation}) => {
   )
 }
 
-const OrderCard =({address,date,orders,pay,status,storename})=>{
+const OrderCard =({address,date,orders,pay,status,storename,orderid,o,navigation})=>{
 
     const getColor=(status)=>{
         if(status == 3){
@@ -99,7 +102,7 @@ const OrderCard =({address,date,orders,pay,status,storename})=>{
     }
     const {width} = useWindowDimensions()
     return (
-        <View style={[styles.card,{width : width * .90}]}>
+        <TouchableOpacity onPress={()=>navigation.navigate('OrderDetails',{order : o})} style={[styles.card,{width : width * .90}]}>
             <View style={styles.info}>
                 <Text style={styles.name}>{storename}</Text>
                 <Text style={styles.date}>{new Date(date.seconds * 1000).toLocaleDateString("en-US")}</Text>
@@ -114,7 +117,7 @@ const OrderCard =({address,date,orders,pay,status,storename})=>{
                 <Text style={styles.date}>{getTotalItems()} Items</Text>
                   
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
 

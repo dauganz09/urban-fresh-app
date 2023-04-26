@@ -5,6 +5,7 @@ import TransactionHome from '../../screens/buyer/TransactionHome';
 import Cart from '../../screens/buyer/Cart';
 import Favorites from '../../screens/buyer/Favorites';
 import { colors } from '../../utils/constants';
+import OrderDetailsB from '../../screens/buyer/OrderDetailsB';
 
 const Stack = createNativeStackNavigator();
 const TransactionStack = () => {
@@ -13,6 +14,12 @@ const TransactionStack = () => {
     <Stack.Screen name="TransactionHome" component={TransactionHome} options={{headerShown : false}}/>
     <Stack.Screen name="Cart" component={Cart} options={{headerShown : false}}/>  
    <Stack.Screen name="Favorites" component={Favorites} options={{headerShown : false}}/>  
+   <Stack.Screen name="OrderDetails" component={OrderDetailsB} options={{
+        title : 'Order Details',
+        headerStyle :{backgroundColor : colors.primary},
+        headerTitleStyle : {color : 'white',fontSize : 24,fontWeight : 'bold'},
+        headerTitleAlign : 'left',
+        headerTintColor: 'white',}}/>
    
     
 
