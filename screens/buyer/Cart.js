@@ -36,7 +36,7 @@ const Cart = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Header onPress={() => navigation.goBack()} />
       <View style={{flexDirection : 'row',alignItems :'center',justifyContent:'center',width:'100%'}}>
-        <Text style={styles.title}>Total Price: {totalPrice}</Text>
+        <Text style={styles.title}>Total Price with Shipping: {totalPrice}</Text>
         </View>
       <View style={styles.cartBox}>
        
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
     fontSize: 24,
+    paddingTop: 10,
     fontWeight: 'bold',
     color: colors.primary,
     lineHeight: 20

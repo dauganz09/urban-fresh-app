@@ -32,7 +32,8 @@ const ProfileView = ({navigation}) => {
       <Input label="Email" text={user.email}  isVerified/>
       <Input label="Password" text={user.cpass} isPassword isModify/>
       <Input label="Mobile Number" text={user.mobile} isVerified/>
-      <Input label="Address" text={user.block} multiline/>
+      <Input label="Address" text={`${user.block} ${user.barangay} ${user.city} ${user.province}`} multiline/>
+
       <View style={styles.footer}>
             <Button onPress={()=>navigation.navigate('UpdateProfile')} color={colors.primary} text="Update Profile" textColor="white"/>
       </View>

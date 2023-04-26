@@ -63,7 +63,7 @@ const links = [
                 />
                 <View style={styles.textBox}>  
                     <Text style={styles.name}>{user.fname} {user.lname}</Text>
-                    <Text style={styles.address}>Complete Address: {user.block || ''} {user.barangay || ''} {user.province || ''}  {user.city || ''} {user.zipcode || ''}</Text>
+                    <Text style={styles.address}>Complete Address: {user.block || ''} {user.barangay || ''}  {user.city || ''} {user.province || ''} {user.zipcode || ''}</Text>
 
                 </View>
 
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
     name : {
         fontSize :20,
         fontWeight : 'bold',
+        padding: 5,
         lineHeight : 15,
         color : 'white',
         width : "100%",
