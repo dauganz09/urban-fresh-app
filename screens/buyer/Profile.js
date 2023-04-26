@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View,Image, TouchableOpacity} from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View,Image, TouchableOpacity,Linking} from 'react-native'
 import React from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
@@ -18,15 +18,15 @@ const links = [
         name : 'Profile',
         route : 'ProfileView'
     },
-    {
-        icon : 'setting',
-        name : 'Settings',
-        route : 'Settings'
-    },
+    // {
+    //     icon : 'setting',
+    //     name : 'Settings',
+    //     route : 'Settings'
+    // },
     {
         icon : 'copy1',
-        name : 'Terms',
-        route : 'Terms'
+        name : 'Terms & Conditions',
+        route : ()=>{ Linking.openURL('https://www.traff.co/37e7mTd0')}
     },
     {
         icon : 'logout',

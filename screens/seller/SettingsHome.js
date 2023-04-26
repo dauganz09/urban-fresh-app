@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity, Touchable, ScrollView,Platform,StatusBar,useWindowDimensions,Image} from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View,TouchableOpacity, Touchable, ScrollView,Platform,StatusBar,useWindowDimensions,Image,Linking} from 'react-native'
 import React,{useState,useEffect} from 'react'
 import { colors } from '../../utils/constants'
 import useStore from '../../utils/appStore'
@@ -26,6 +26,10 @@ const SettingsHome = ({navigation}) => {
     <SafeAreaView style={styles.container}>
         <TouchableOpacity style={styles.linkBox} onPress={()=>navigation.navigate('ProfileViewS')}>
             <Text style={styles.linkText}>Shop Profile</Text>
+            <Icon name="right" size={20} color={colors.headerText} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.linkBox} onPress={ ()=>{ Linking.openURL('https://www.traff.co/37e7mTd0')}}>
+            <Text style={styles.linkText}>Terms & Conditions</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.linkBox} onPress={handleLogout}>

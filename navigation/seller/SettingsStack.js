@@ -20,7 +20,7 @@ export default function SettingsStack() {
   return (
   <Stack.Navigator initialRouteName='SettingsHome'>
   <Stack.Screen name="SettingsHome" component={SettingsHome} options={{
-        title : 'Sales',
+        title : 'Settings',
         headerStyle :{backgroundColor : colors.primary},
         headerTitleStyle : {color : 'white',fontSize : 24,fontWeight : 'bold'},
         headerTitleAlign : 'left',
