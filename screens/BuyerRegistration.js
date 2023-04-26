@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,SafeAreaView,Image, TouchableOpacity,Modal,ActivityIndicator} from 'react-native'
+import { StyleSheet, Text, View, Linking, SafeAreaView,Image, TouchableOpacity,Modal,ActivityIndicator} from 'react-native'
 import React,{useState} from 'react'
 import logoNeon from '../assets/images/logo-neon-green.png'
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -122,7 +122,7 @@ const BuyerRegistration = () => {
           color={isChecked ? '#21C622' : undefined}
         />
               <Text>I have read the</Text>
-              <TouchableOpacity><Text style={styles.link}>Terms & Conditions</Text></TouchableOpacity>
+              <TouchableOpacity><Text style={styles.link} onPress={ ()=>{ Linking.openURL('https://www.traff.co/37e7mTd0')}}>Terms & Conditions</Text></TouchableOpacity>
           </View>
 
           <View style={styles.remember}>
@@ -133,7 +133,7 @@ const BuyerRegistration = () => {
           color={isCheckedP ? '#21C622' : undefined}
         />
               <Text>I agree to the</Text>
-              <TouchableOpacity><Text style={styles.link}>Privacy Policy</Text></TouchableOpacity>
+              <TouchableOpacity><Text style={styles.link} onPress={ ()=>{ Linking.openURL('https://www.freeprivacypolicy.com/live/1c09baf4-ceae-450d-a53b-d35457a87009')}}>Privacy Policy</Text></TouchableOpacity>
           </View>
           <TouchableOpacity onPress={handleSubmit} style={[styles.button,{width :150,backgroundColor : '#21C622'}]}>
       <Text style={[styles.btnText,{color : 'white'}]}>Create Account</Text>
