@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { collection, query, where,getDocs,doc,deleteDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 
-const UnpaidOrders = ({navigation}) => {
+const CompletedOrders = ({navigation}) => {
     const user = useStore((state)=>state.user)
     const [orders,setOrders] = useState([])
 
@@ -18,7 +18,7 @@ const UnpaidOrders = ({navigation}) => {
     
 
   const getOrders= async ()=>{
-    const q =  query(collection(FIRESTORE_DB, "orders"), where("storeid", "==",user.userid),where("status","==",0));
+    const q =  query(collection(FIRESTORE_DB, "orders"), where("storeid", "==",user.userid),where("status","==",2));
         
     const querySnapshot = await getDocs(q);
     const orders = []
@@ -74,7 +74,7 @@ const LinkBox = ({orderid,orders,onPress})=>{
     )
 }
 
-export default UnpaidOrders
+export default CompletedOrders
 
 const styles = StyleSheet.create({
     container : {

@@ -14,28 +14,16 @@ const SalesHome = ({navigation}) => {
             <Text style={styles.linkText}>Unpaid</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.linkBox}>
-            <Text style={styles.linkText}>To Ship</Text>
-            <Icon name="right" size={20} color={colors.headerText} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.linkBox}>
+        <TouchableOpacity style={styles.linkBox} onPress={()=>navigation.navigate('ShippingOrders')}>
             <Text style={styles.linkText}>Shipping</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.linkBox}>
+        <TouchableOpacity style={styles.linkBox} onPress={()=>navigation.navigate('CompletedOrders')}>
             <Text style={styles.linkText}>Completed</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.linkBox}>
-            <Text style={styles.linkText}>Cancellation</Text>
-            <Icon name="right" size={20} color={colors.headerText} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.linkBox}>
-            <Text style={styles.linkText}>Return/Refund</Text>
-            <Icon name="right" size={20} color={colors.headerText} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.linkBox}>
-            <Text style={styles.linkText}>Failed Delivery</Text>
+            <Text style={styles.linkText}>Cancellation/Refund</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
 
