@@ -6,6 +6,7 @@ import { colors } from '../../utils/constants';
 
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import HomeStack from './HomeStack';
+import SalesStack from './SalesStack';
 
 
 const Tab = createBottomTabNavigator();
@@ -44,7 +45,7 @@ export default function SellerTabs() {
             if (route.name === 'HomeStack') {
               iconName = 'home-outline';
                 iconColor = focused ? 'black' : colors.primary 
-            } else if (route.name === 'TransactionStack') {
+            } else if (route.name === 'SalesStack') {
               iconName = 'newspaper-outline';
                 iconColor = focused ? 'black' : colors.primary 
             }else if(route.name === 'DeliveryStack'){
@@ -60,6 +61,7 @@ export default function SellerTabs() {
         })}
        >
         <Tab.Screen name="HomeStack" component={HomeStack} options = {({route})=>({ tabBarLabel: 'Home',headerShown: false,tabBarLabelStyle : {fontSize: 10}})}  />
+        <Tab.Screen name="SalesStack" component={SalesStack} options = {({route})=>({ tabBarLabel: 'Sales History',headerShown: false,tabBarLabelStyle : {fontSize: 10}})}  />
        
       </Tab.Navigator>
      

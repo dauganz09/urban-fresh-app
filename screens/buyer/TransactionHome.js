@@ -61,7 +61,10 @@ const TransactionHome = ({navigation}) => {
 const OrderCard =({address,date,orders,pay,status,storename})=>{
 
     const getColor=(status)=>{
-        if(status==2){
+        if(status == 3){
+            return colors.dragon
+        }
+        else if(status==2){
             return colors.primary
         }else if(status==1){
             return colors.mango
@@ -83,7 +86,10 @@ const OrderCard =({address,date,orders,pay,status,storename})=>{
     }
 
     const getStatus=(status)=>{
-        if(status==2){
+        if(status == 3){
+            return "Cancelled"
+        }
+        else if(status==2){
             return "Delivered"
         }else if(status==1){
             return "Out for Deliver"

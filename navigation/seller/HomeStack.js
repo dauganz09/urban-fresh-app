@@ -19,7 +19,7 @@ export default function HomeStack() {
   <Stack.Navigator initialRouteName='SellerHome'>
   <Stack.Screen name="SellerHome" component={SellerHome} options={{headerShown : false}}/>
   <Stack.Screen name="AddProduct" component={AddProduct} options={{
-        title : 'Profile',
+        title : 'Add Product',
         headerStyle :{backgroundColor : colors.primary},
         headerTitleStyle : {color : 'white'},
         headerTitleAlign : 'left',

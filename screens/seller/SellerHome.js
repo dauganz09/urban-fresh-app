@@ -18,15 +18,19 @@ const SellerHome = ({navigation}) => {
     const productRef = collection(FIRESTORE_DB, "products");
     const [products,setProducts] = useState([])
     const isFocused = useIsFocused();
-   
+    const [orders,setOrders] = useState([])
     
 
     useLayoutEffect(() => {
         getProducts()
-       
+        
     
      
     }, [tab,isFocused])
+
+    useLayoutEffect(()=>{
+        getOrders()
+    },[])
 
     const getProducts = async ()=>{
         // Create a query against the collection.
@@ -43,12 +47,31 @@ const SellerHome = ({navigation}) => {
         setProducts(prod_data)
     }
 
+    const getOrders = async  ()=>{
+       
+        const q =  query(collection(FIRESTORE_DB, "orders"), where("storeid", "==",user.userid));
+        
+        const querySnapshot = await getDocs(q);
+        const orders = []
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        orders.push({...doc.data(),orderid : doc.id})
+        });
+        
+        setOrders(orders)
+        console.log(orders)
+    }
+
+
+    
+
     
 
   return (
     <SafeAreaView style={styles.container}>
       <Header2 name={user.storename}/>
-        <SellerStats />
+        <SellerStats orders={orders}/>
         <View style={styles.header}>
             <Text style={styles.headerText}>My Products</Text>
             <View style={styles.line}></View>
