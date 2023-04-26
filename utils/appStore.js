@@ -52,6 +52,7 @@ setStoreid : (id)=>{
       set((state) => ({ totalPrice: state.price + price}))
     },
     getTotalPrice : ()=>{
+      
       const totalPrice = get().cart.reduce((acc,item)=>{
           return acc + ((item.price * item.count)+ item.shipping)
       },0)

@@ -6,8 +6,12 @@ import userplaceholder from '../../assets/images/user.png'
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native'
 import useStore from '../../utils/appStore'
+import { useToast } from 'react-native-toast-notifications'
 
 
+const Profile = ({navigation}) => {
+const toast = useToast()
+    
 const links = [
     {
         icon : 'user',
@@ -27,11 +31,20 @@ const links = [
     {
         icon : 'logout',
         name : 'Logout',
-        route : ()=>console.log('Logout')
+        route : ()=>{
+            navigation.navigate('Login')
+            toast.show('Successfully Logout!!',{
+                type: "success",
+                placement: "bottom",
+                duration: 2000,
+                offset: 30,
+                animationType: "slide-in",
+              })    
+    
+        }
     }
 ]
 
-const Profile = ({navigation}) => {
     const user = useStore((state)=>state.user)
   return (
    <SafeAreaView style={styles.container}>
