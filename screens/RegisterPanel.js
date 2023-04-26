@@ -21,7 +21,7 @@ const RegisterPanel = ({navigation}) => {
     </View>
 
       <Image
-        source={{uri : logoNeon}}
+        source={logoNeon}
         resizeMode = 'contain'
         style={styles.image}
         />

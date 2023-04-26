@@ -141,7 +141,7 @@ const BuyerRegistration = () => {
 
 
       <Image
-        source={{uri : logoNeon}}
+        source={logoNeon}
         resizeMode = 'contain'
         style={styles.image}
         />
@@ -247,6 +247,6 @@ const styles = StyleSheet.create({
         padding : 20
     },
     btnText : {
-        fontWeight : 700
+        fontWeight : 'bold'
     }
 })
