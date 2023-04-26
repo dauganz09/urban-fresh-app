@@ -9,6 +9,7 @@ import UnpaidOrders from '../../screens/seller/UnpaidOrders';
 import OrderDetails from '../../screens/seller/OrderDetails';
 import ShippingOrders from '../../screens/seller/ShippingOrders';
 import CompletedOrders from '../../screens/seller/CompletedOrders';
+import CancelledOrders from '../../screens/seller/CancelledOrders';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,12 @@ export default function SalesStack() {
         headerTintColor: 'white',}}/>
     <Stack.Screen name="CompletedOrders" component={CompletedOrders} options={{
         title : 'Completed Orders',
+        headerStyle :{backgroundColor : colors.primary},
+        headerTitleStyle : {color : 'white',fontSize : 24,fontWeight : 'bold'},
+        headerTitleAlign : 'left',
+        headerTintColor: 'white',}}/>
+    <Stack.Screen name="CancelledOrders" component={CancelledOrders} options={{
+        title : 'Cancelled Orders',
         headerStyle :{backgroundColor : colors.primary},
         headerTitleStyle : {color : 'white',fontSize : 24,fontWeight : 'bold'},
         headerTitleAlign : 'left',

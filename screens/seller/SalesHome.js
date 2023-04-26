@@ -22,7 +22,7 @@ const SalesHome = ({navigation}) => {
             <Text style={styles.linkText}>Completed</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.linkBox}>
+        <TouchableOpacity style={styles.linkBox} onPress={()=>navigation.navigate('CancelledOrders')}>
             <Text style={styles.linkText}>Cancellation/Refund</Text>
             <Icon name="right" size={20} color={colors.headerText} />
         </TouchableOpacity>
