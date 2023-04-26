@@ -71,13 +71,13 @@ const OrderCard =({address,date,orders,pay,status,storename})=>{
     }
 
     const getTotal=()=>{
-        orders.reduce((acc,item)=>{
+        return orders.reduce((acc,item)=>{
             return acc + ((item.price * item.count)+ item.shipping)
         },0)
     }
 
     const getTotalItems=()=>{
-        orders.reduce((acc,item)=>{
+        return orders.reduce((acc,item)=>{
             return acc + item.count
         },0)
     }
@@ -96,7 +96,7 @@ const OrderCard =({address,date,orders,pay,status,storename})=>{
         <View style={[styles.card,{width : width * .90}]}>
             <View style={styles.info}>
                 <Text style={styles.name}>{storename}</Text>
-                <Text style={styles.date}>{date}</Text>
+                <Text style={styles.date}>{new Date(date.seconds * 1000).toLocaleDateString("en-US")}</Text>
                     <View style={styles.indicator}>
                         <View style={[styles.dot,{backgroundColor: getColor(status)}]}></View>
                         <Text style={styles.status}>{getStatus(status)}</Text>
