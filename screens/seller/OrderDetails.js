@@ -4,7 +4,7 @@ import { colors } from '../../utils/constants'
 import useStore from '../../utils/appStore'
 import Header from '../../components/Header'
 import Icon from 'react-native-vector-icons/AntDesign';
-import { collection, query, where,getDocs,doc,deleteDoc,getDoc,setDoc } from "firebase/firestore";
+import { collection, query, where,getDocs,doc,deleteDoc,getDoc,setDoc,increment } from "firebase/firestore";
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import fallback from '../../assets/images/fallback.png'
 import Button from '../../components/Button'
@@ -58,6 +58,14 @@ const handlePaid = async (orderid)=>{
             status : 1
            
         },{ merge: true })
+
+        order.orders.map(async (p,i)=>{
+            const res = await setDoc(doc(FIRESTORE_DB,"products",p.prod_id),{
+                stock : increment(-p.count)
+               
+            },{ merge: true })
+        })
+
 
         toast.show('Order Status Updated',{
             type: "success",
