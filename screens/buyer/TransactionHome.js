@@ -1,12 +1,37 @@
 import { SafeAreaView, StyleSheet, Text, View,Image, TextInput,useWindowDimensions, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import userplaceholder from '../../assets/images/user.png'
 import { colors } from '../../utils/constants'
-
+import { collection, query, where,getDocs } from "firebase/firestore";
+import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import Header from '../../components/Header'
+import useStore from '../../utils/appStore';
 
 const TransactionHome = ({navigation}) => {
+    const user = useStore((state)=>state.user)
+
+
     const [transactions,setTransactions] = useState([]);
+
+    useEffect(() => {
+      getOrders()
+      },[])
+    
+
+    const getOrders = async  ()=>{
+       
+        const q =  query(collection(FIRESTORE_DB, "orders"), where("user_id", "==",user.userid));
+        
+        const querySnapshot = await getDocs(q);
+        const orders = []
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        orders.push({...doc.data(),orderid : doc.id})
+        });
+        console.log(orders)
+        setTransactions(orders)
+    }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -18,39 +43,69 @@ const TransactionHome = ({navigation}) => {
             
         </View>
        {
-        transactions && 
+        transactions.length == 0 && 
         <Text style={styles.infoText}>No Current Orders</Text>
        }
+
+       {
+        transactions.length > 0 &&
+        transactions.map((t,i)=>(
+            <OrderCard key={i} {...t} />
+        ))
+       }
+
     </SafeAreaView>
   )
 }
 
-const OrderCard =({status})=>{
+const OrderCard =({address,date,orders,pay,status,storename})=>{
 
     const getColor=(status)=>{
-        if(status=="Delivered"){
+        if(status==2){
             return colors.primary
-        }else if(status=="Pending"){
+        }else if(status==1){
             return colors.mango
         }else{
             return colors.headerText
+        }
+    }
+
+    const getTotal=()=>{
+        orders.reduce((acc,item)=>{
+            return acc + ((item.price * item.count)+ item.shipping)
+        },0)
+    }
+
+    const getTotalItems=()=>{
+        orders.reduce((acc,item)=>{
+            return acc + item.count
+        },0)
+    }
+
+    const getStatus=(status)=>{
+        if(status==2){
+            return "Delivered"
+        }else if(status==1){
+            return "Out for Deliver"
+        }else{
+            return "Pending"
         }
     }
     const {width} = useWindowDimensions()
     return (
         <View style={[styles.card,{width : width * .90}]}>
             <View style={styles.info}>
-                <Text style={styles.name}>Seller Name</Text>
-                <Text style={styles.date}>Date, Month, Year</Text>
+                <Text style={styles.name}>{storename}</Text>
+                <Text style={styles.date}>{date}</Text>
                     <View style={styles.indicator}>
                         <View style={[styles.dot,{backgroundColor: getColor(status)}]}></View>
-                        <Text style={styles.status}>{status}</Text>
+                        <Text style={styles.status}>{getStatus(status)}</Text>
                     </View>
             </View>
 
             <View style={styles.info}>
-                <Text style={styles.name}>PHP 0.00</Text>
-                <Text style={styles.date}>0 Items</Text>
+                <Text style={styles.name}>PHP {getTotal()}</Text>
+                <Text style={styles.date}>{getTotalItems()} Items</Text>
                   
             </View>
         </View>

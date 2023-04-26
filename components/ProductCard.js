@@ -6,7 +6,7 @@ import { colors } from '../utils/constants';
 import useStore from '../utils/appStore';
 import { useToast } from "react-native-toast-notifications";
 
-const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname}) => {
+const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname,shipping}) => {
     const {width} = useWindowDimensions()
     const addToCart = useStore((state)=>state.addToCart)
     const fetchCart = useStore((state)=>state.fetchCart)
@@ -43,7 +43,7 @@ const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname}) => 
             animationType: "slide-in",
         })
 
-        addToCart(prod_id,user.userid,0,sname,pic,unit,stock,price,name,desc)
+        addToCart(prod_id,user.userid,0,sname,pic,unit,stock,price,name,desc,shipping)
         console.log("added to cart")
         toast.show('Product Added to Cart!',{
             type: "success",

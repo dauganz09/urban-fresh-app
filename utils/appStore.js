@@ -1,7 +1,7 @@
 import {create} from "zustand";
 import { axios1 } from "./axios";
 import { FIRESTORE_DB } from './firebaseConfig'
-import { collection, query, where,getDocs,addDoc,getDoc,doc,setDoc,arrayUnion,updateDoc,serverTimestamp} from "firebase/firestore";
+import { collection, query, where,getDocs,addDoc,getDoc,doc,setDoc,arrayUnion,updateDoc,serverTimestamp,deleteDoc} from "firebase/firestore";
 
 const useStore = create((set,get) => ({
     data: [],
@@ -13,18 +13,23 @@ const useStore = create((set,get) => ({
     currentStore : "",
     loading: false,
     hasErrors: false,
-    addOrders : async (cart,storeid)=>{
+    addOrders : async (cart,storeid,pay)=>{
       console.log(storeid)
       console.log(get().currentStore)
       try {
-        const res = await setDoc(doc(FIRESTORE_DB,"orders",storeid),{
+        const res = await setDoc(doc(collection(FIRESTORE_DB,"orders")),{
           user_id : get().user.userid,
           orders : [...cart],
           storename : get().currentStore,
           address : get().user,
+          storeid : storeid,
+          pay : pay,
+          status : 0,
           date: serverTimestamp()
          
       },{merge:true})
+
+      await deleteDoc(doc(FIRESTORE_DB,"cart",get().user.userid))
 
       set(() => ({ cart:[] }));
       set(()=>({currentStore : "",storeid: ""}))
@@ -48,7 +53,7 @@ setStoreid : (id)=>{
     },
     getTotalPrice : ()=>{
       const totalPrice = get().cart.reduce((acc,item)=>{
-          return acc + (item.price * item.count)
+          return acc + ((item.price * item.count)+ item.shipping)
       },0)
       console.log(totalPrice)
       set(()=>({totalPrice: totalPrice}))
@@ -118,7 +123,7 @@ setStoreid : (id)=>{
     resetCurrentStore : ()=>{
       set(() => ({ currentStore: ""}))
     },
-    addToCart : async (prod_id,user_id,count,sname,pic,unit,stock,price,name,desc)=>{
+    addToCart : async (prod_id,user_id,count,sname,pic,unit,stock,price,name,desc,shipping)=>{
           const item = {
             prod_id : prod_id,
             pic:pic,
@@ -127,7 +132,8 @@ setStoreid : (id)=>{
             count : count,
             price : price,
             name : name,
-            desc :desc
+            desc :desc,
+            shipping : shipping
           }
           try {
             const res = await setDoc(doc(FIRESTORE_DB,"cart",user_id),{

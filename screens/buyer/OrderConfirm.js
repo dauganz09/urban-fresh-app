@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, StyleSheet, Text, View, ScrollView, Image, useWindowDimensions, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Pressable, SafeAreaView, StyleSheet, Text, View, ScrollView, Image, useWindowDimensions, TouchableOpacity, ActivityIndicator, Touchable } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
@@ -22,9 +22,11 @@ const OrderConfirm = ({ navigation }) => {
   const storeid = useStore((state) => state.storeid)
   const totalPrice = useStore((state) => state.totalPrice)
   const loading = useStore((state) => state.loading)
+  const user = useStore((state) => state.user)
   const setCurrentStore = useStore((state) => state.setCurrentStore)
   const addOrders = useStore((state) => state.addOrders)
   const toast = useToast()  
+  const [pay,setPay] = useState(0)
 
 
   useLayoutEffect(() => {
@@ -38,7 +40,7 @@ const OrderConfirm = ({ navigation }) => {
 
   const ConfirmOrder =()=>{
     console.log('Order confirmed')
-    addOrders(cart,storeid)
+    addOrders(cart,storeid,pay)
     toast.show('Orders Confirmed and Sent to Store!!',{
         type: "success",
         placement: "bottom",
@@ -78,11 +80,28 @@ const OrderConfirm = ({ navigation }) => {
          <View style={{flexDirection : 'row',alignItems :'center',justifyContent:'center',width:'100%'}}>
         <Text style={styles.title}>Total Price: {totalPrice}</Text>
         </View>
+        <View style={{borderWidth:2,borderStyle : 'solid',borderColor : colors.primary}}></View>
+        <View style={{alignItems :'center',justifyContent:'center',width:'100%',paddingLeft:20,paddingRight:20}}>
+          <Text style={{width : '100%',textAlign : 'left',color : colors.primary,fontSize: 20}}>Shipping Address: </Text>
+          <Text>{user.block || ''} {user.barangay || ''} {user.city || ''} {user.province || ''} {user.zipcode || ''}</Text>
+         
+        </View>
+        <View style={{alignItems :'center',justifyContent:'center',width:'100%',paddingLeft:20,paddingRight:20}}>
+          <Text style={{width : '100%',textAlign : 'left',color : colors.primary,fontSize: 20}}>Payment Type:</Text>
+          <TouchableOpacity onPress={()=>setPay(0)} style={[styles.payment,pay == 0 ? styles.selected : '']}>
+                <Text style={styles.paymentText}>COD</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>setPay(1)} style={[styles.payment,pay == 1 ? styles.selected : '']}>
+                <Text style={styles.paymentText}>GCASH</Text>
+          </TouchableOpacity>
+       
+        </View>
+
       </ScrollView>
      
 
       <View style={styles.btnBox}>
-        {(!isDeleting && cart.length > 0) ? <Button width={200} onPress={ConfirmOrder}  textColor="white" text="Confirm Order" color={colors.primary} /> :<Text></Text>}
+        {(!isDeleting && cart.length > 0) ? <Button width={200} onPress={ConfirmOrder}  textColor="white" text="Checkout" color={colors.primary} /> :<Text></Text>}
       </View>
     </SafeAreaView>
 
@@ -140,4 +159,25 @@ const styles = StyleSheet.create({
     top: 100,
 
   },
+  payment : {
+    marginTop :10,
+    marginBottom : 10,
+    width : 250,
+    borderStyle : 'solid',
+    borderColor : colors.headerText,
+    borderWidth : 1,
+    borderRadius : 10,
+    height : 40,
+    flexDirection : 'row',
+    alignItems : 'center',
+    justifyContent :'center'
+  },
+  selected : {
+    borderColor : colors.primary,
+  },
+  paymentText : {
+    fontSize : 24,
+    color :colors.headerText,
+    fontWeight : 'bold'
+  }
 })

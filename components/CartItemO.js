@@ -55,7 +55,7 @@ const CartItemO = ({isDeleting,cart,setIsDeleting}) => {
 
 
 
-const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,setIsDeleting,prod}) =>{
+const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,setIsDeleting,prod,shipping}) =>{
     const {width} = useWindowDimensions()
     const [product,setProduct] = useState({})
     const fetchCart = useStore((state)=>state.fetchCart)
@@ -175,7 +175,8 @@ const CartProduct = ({isDeleting,count,prod_id,name,desc,price,unit,pic,stock,se
                 <Text style={styles.desc}>{desc}</Text>
                 <Text style={styles.price}>Price : {price}</Text>
                 <Text style={styles.price}>Quantity : {count}</Text>
-                <Text style={styles.price}>Subtotal : PHP {price * unit}</Text>
+                <Text style={styles.price}>Shipping Fee : PHP {shipping}</Text>
+                <Text style={styles.price}>Subtotal : PHP {(price * count)+ shipping}</Text>
                
         </View>
         
