@@ -8,6 +8,8 @@ import ProductDetail from '../../screens/buyer/ProductDetail';
 import Cart from '../../screens/buyer/Cart';
 import Favorites from '../../screens/buyer/Favorites';
 import OrderConfirm from '../../screens/buyer/OrderConfirm';
+import AddRating from '../../screens/buyer/AddRating';
+import { colors } from '../../utils/constants';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,12 @@ export default function HomeStack() {
    <Stack.Screen name="Cart" component={Cart} options={{headerShown : false}}/>  
    <Stack.Screen name="Favorites" component={Favorites} options={{headerShown : false}}/>  
    <Stack.Screen name="OrderConfirm" component={OrderConfirm} options={{headerShown : false}}/>  
+   <Stack.Screen name="AddRating" component={AddRating} options={{
+        title : 'Add Rating',
+        headerStyle :{backgroundColor : colors.primary},
+        headerTitleStyle : {color : 'white',fontSize : 24,fontWeight : 'bold'},
+        headerTitleAlign : 'left',
+        headerTintColor: 'white',}}/>
   
     
 

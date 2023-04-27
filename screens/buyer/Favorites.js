@@ -12,6 +12,7 @@ import useStore from '../../utils/appStore';
 
 const Favorites = ({navigation}) => {
   const user = useStore((state)=>state.user)
+  const setFaves = useStore((state)=>state.setFaves)
   const [favorites,setFavorites] = useState([])
 
     const [isDeleting,setIsDeleting] =useState(false)
@@ -33,12 +34,12 @@ const Favorites = ({navigation}) => {
         favs.push({...doc.data(),storeid : doc.id})
         });
        setFavorites(favs)  
-
+       setFaves(favs)
     } catch (error) {
       console.log(error)
     }
     }
-
+    console.log(favorites)
   return (
     <SafeAreaView style={styles.container}>
       <Header onPress={()=>navigation.goBack()}/>
@@ -62,7 +63,7 @@ const Favorites = ({navigation}) => {
           
         :
           favorites.map((f,i)=>(
-            <FavItem key={i} {...f} isDeleting={isDeleting}/>
+            <FavItem key={i} {...f} isDeleting={isDeleting} getFaves={getFaves}/>
           ))
         }
              

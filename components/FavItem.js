@@ -3,8 +3,11 @@ import React from 'react'
 import fallback from '../assets/images/fallback.png'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { colors } from '../utils/constants'
+import useStore from '../utils/appStore'
 
-const FavItem = ({isDeleting,store,fav_items}) => {
+
+const FavItem = ({isDeleting,store,storeid,fav_items,getFaves}) => {
+    console.log(storeid)
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -14,7 +17,7 @@ const FavItem = ({isDeleting,store,fav_items}) => {
       <View style={styles.contentContainer}>
         {
             fav_items.map((fv,i)=>(
-                <FavProduct key={i} {...fv} isDeleting={isDeleting}/>
+                <FavProduct key={i} storeid={storeid} {...fv} isDeleting={isDeleting} getFaves={getFaves} />
             ))
         }
       
@@ -26,8 +29,14 @@ const FavItem = ({isDeleting,store,fav_items}) => {
 
 
 
-const FavProduct = ({isDeleting,desc,name,pic,price}) =>{
+const FavProduct = ({isDeleting,desc,name,pic,price,getFaves,storeid}) =>{
     const {width} = useWindowDimensions()
+    const favorites = useStore((state)=>state.favorites)
+    
+    const handleDelete= async (storeid)=>{
+         console.log("Deleted")
+    }
+
     return (
         <View style={[styles.card2,{width : width * .95}]}>
         <Image 
@@ -45,7 +54,7 @@ const FavProduct = ({isDeleting,desc,name,pic,price}) =>{
         </View>
         <View style={styles.heart}>
             {
-                isDeleting ? <Icon name="delete" size={30} color="#FF0000" /> : null
+                isDeleting ? <TouchableOpacity onPress={()=>handleDelete(storeid)}><Icon name="delete" size={30} color="#FF0000" /></TouchableOpacity> : null
                
             }
         </View>

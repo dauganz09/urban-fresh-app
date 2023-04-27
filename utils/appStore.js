@@ -52,6 +52,9 @@ setStoreid : (id)=>{
     setTotalPrice : (price)=>{
       set((state) => ({ totalPrice: state.price + price}))
     },
+    setFaves : (favs)=>{
+      set(() => ({ favorites: favs }));
+    },
     getTotalPrice : ()=>{
       
       const totalPrice = get().cart.reduce((acc,item)=>{

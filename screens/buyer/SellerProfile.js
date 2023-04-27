@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions } from 'react-native'
+import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions,Modal } from 'react-native'
 import React,{useState,useLayoutEffect,useFocusEffect} from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
@@ -11,6 +11,7 @@ import { collection, query, where,getDocs,getDoc,addDoc, doc, setDoc} from "fire
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import useStore from '../../utils/appStore'
 import { useIsFocused } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-web'
 
 
 const SellerProfile = ({route,navigation}) => {
@@ -20,9 +21,12 @@ const SellerProfile = ({route,navigation}) => {
     const [store,setStore] = useState({})
     const [products,setProducts] = useState([])
     const cart =  useStore((state)=>state.cart)
+    const user =  useStore((state)=>state.user)
     const [inCart,setIncart] = useState(false)
     const isFocused = useIsFocused();
     const setStoreid = useStore((state)=>state.setStoreid)
+    const [rating,setRating] = useState(0)
+    const [israted,setIsrated] = useState(false)
 
     useLayoutEffect(() => {
       getStoreProfile();
@@ -42,6 +46,7 @@ if (docSnap.exists()) {
     setStoreid(docSnap.id)
     setStore(docSnap.data())
     getStoreProducts(docSnap.id)
+    getRatings(docSnap.id)
   } else {
     // docSnap.data() will be undefined in this case
     console.log("No such document!");
@@ -65,6 +70,32 @@ if (docSnap.exists()) {
     }
 
 
+    const getRatings= async (storeid)=>{
+        const q =  query(collection(FIRESTORE_DB, "ratings"), where("storeid", "==",storeid));
+        
+        const querySnapshot = await getDocs(q);
+        const fratings = []
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        fratings.push({...doc.data(),ratingid : doc.id})
+        });
+        console.log(fratings)
+       
+        if(fratings.length > 0){
+            const initratings = fratings.reduce((acc,item)=>{
+                    return acc + item.rating
+            },0)
+            const finalrating = Math.round(Math.round(initratings) / fratings.length)
+            setRating(finalrating)
+            console.log(finalrating)
+
+            fratings.map((item,i)=>{
+               if(item.userid == user.userid) setIsrated(true)
+            })
+        }
+       
+    }
     
   return (
     <SafeAreaView style={styles.container}>
@@ -82,11 +113,21 @@ if (docSnap.exists()) {
         <View style={styles.stars}>
             <Text style={styles.name}>{store.storename}</Text>
             <View style={styles.rating}>
+                {
+                    rating == 0 ? <Text>No Ratings Yet</Text>
+                    :
+                    [...Array(5).keys()].map((r,i)=>(
+                        (i+1)<=rating ?  <Icon key={i} name="star" size={20} color="#FAFF00" /> : <Icon key={i} name="star-o" size={20} color="#DCDCDC" />
+                       
+                    ))
+
+                }
+
+                {/* <Icon name="star" size={20} color="#FAFF00" />
                 <Icon name="star" size={20} color="#FAFF00" />
                 <Icon name="star" size={20} color="#FAFF00" />
                 <Icon name="star" size={20} color="#FAFF00" />
-                <Icon name="star" size={20} color="#FAFF00" />
-                <Icon name="star" size={20} color="#FAFF00" />
+                <Icon name="star" size={20} color="#FAFF00" /> */}
 
             </View>
         </View>
@@ -95,6 +136,7 @@ if (docSnap.exists()) {
             <Text style={styles.locationText}>
                     { `${store.block} ${store.barangay} ${store.city} ${store.province} ${store.zipcode}`}
             </Text>
+            {israted ?<Text>Already Rated</Text> :<TouchableOpacity style={styles.ratingBtn} onPress={()=>navigation.navigate('AddRating',{storeid:sellerid})}><Text style={{color : 'white',fontSize:16,fontWeight : 'bold'}}>Add Rating</Text></TouchableOpacity>}
 
         </View>
         <Text style={styles.title}>
@@ -175,5 +217,16 @@ const styles = StyleSheet.create({
         textAlign : 'left',
         fontSize : 14,
         lineHeight : 14
+    },
+    ratingBtn : {
+        backgroundColor : colors.primary,
+        
+        width : 100,
+        height : 40,
+        flexDirection : 'row',
+        alignItems : 'center',
+        justifyContent : 'center',
+        borderRadius : 10
+        
     }
 })
