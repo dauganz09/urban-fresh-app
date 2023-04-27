@@ -75,11 +75,11 @@ const ProfileViewS = ({navigation}) => {
                     source={user.pic || userplaceholder}
                     resizeMode="cover"
                     style={styles.img}
-                > <TouchableOpacity onPress={pickImage} style={styles.icon}>
+                ><TouchableOpacity onPress={pickImage} style={styles.icon}>
                     <Icon  name="edit" size={30} color={colors.primary} />
-                </TouchableOpacity></ImageBackground>
-               
-      </View>
+                </TouchableOpacity>
+                </ImageBackground>
+               </View>
       <Input label="Name" text={user.storename} />
       <Input label="Email" text={user.email}  isVerified/>
       <Input label="Password" text={user.cpass} isPassword isModify/>

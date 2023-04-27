@@ -79,8 +79,7 @@ const ProfileView = ({navigation}) => {
                     <Icon  name="edit" size={30} color={colors.primary} />
                 </TouchableOpacity>
                 </ImageBackground>
-               
-                </View>
+               </View>
       <Input label="Name" text={`${user.fname} ${user.lname}`} />
       <Input label="Email" text={user.email}  isVerified/>
       <Input label="Password" text={user.cpass} isPassword isModify/>

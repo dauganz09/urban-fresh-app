@@ -8,6 +8,7 @@ const useStore = create((set,get) => ({
     orders:[],
     totalPrice:0,
     cart: [],
+    favorites : [],
     user : [],
     storeid : "",
     currentStore : "",
@@ -151,6 +152,29 @@ setStoreid : (id)=>{
             console.log(error)
           }
     },
+    addToFav : async (prod_id,user_id,sname,pic,unit,price,name,desc)=>{
+      const item = {
+        prod_id : prod_id,
+        pic:pic,
+        unit : unit,
+        price : price,
+        name : name,
+        desc :desc
+        
+      }
+      try {
+        const res = await setDoc(doc(FIRESTORE_DB,"favorites",get().storeid),{
+          fav_items : arrayUnion(item),
+          store : sname,
+          userid : user_id
+      },{merge:true})
+
+      
+      console.log(res)
+      } catch (error) {
+        console.log(error)
+      }
+},
     fetch: async (code) => {
       set(() => ({ loading: true }));
       try {

@@ -9,6 +9,7 @@ import { useToast } from "react-native-toast-notifications";
 const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname,shipping}) => {
     const {width} = useWindowDimensions()
     const addToCart = useStore((state)=>state.addToCart)
+    const addToFav = useStore((state)=>state.addToFav)
     const fetchCart = useStore((state)=>state.fetchCart)
     const user = useStore((state)=>state.user)
     const cart = useStore((state)=>state.cart)
@@ -65,6 +66,20 @@ const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname,shipp
     }
     
    }
+
+
+   const handleAddtoFav = ()=>{
+    addToFav(prod_id,user.userid,sname,pic,unit,price,name,desc)
+        console.log("added to Favorites")
+        toast.show('Product Added to Favorites!',{
+            type: "success",
+            placement: "bottom",
+            duration: 2000,
+            offset: 30,
+            animationType: "slide-in",
+        })
+        
+   }
        
     
   return (
@@ -84,7 +99,7 @@ const ProductCard = ({onPress,name,desc,price,stock,unit,pic,prod_id,sname,shipp
                 <Text style={styles.price}>Stock: {stock}</Text>
         </View>
         <View style={styles.heart}>
-            <TouchableOpacity><Icon name="heart-o" size={25} /></TouchableOpacity>
+            <TouchableOpacity onPress={handleAddtoFav}><Icon name="heart-o" size={25} /></TouchableOpacity>
             {inCart ? <Text>Already in Cart</Text>: <TouchableOpacity disabled={stock==0} onPress={handleAddToCart} style={styles.add}><Text style={{fontSize : 14,lineHeight : 14,color : 'white'}}>Add</Text></TouchableOpacity>}
         </View>
     </TouchableOpacity>

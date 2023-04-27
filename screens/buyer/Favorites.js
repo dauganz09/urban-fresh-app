@@ -1,19 +1,44 @@
 import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions, TouchableOpacity } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useLayoutEffect} from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Icon2 from 'react-native-vector-icons/AntDesign'
-
 import FavItem from '../../components/FavItem';
-
+import { collection, query, where,getDocs,addDoc,getDoc,doc,setDoc,arrayUnion,updateDoc,serverTimestamp,deleteDoc} from "firebase/firestore";
+import { FIRESTORE_DB } from '../../utils/firebaseConfig';
+import useStore from '../../utils/appStore';
 
 
 const Favorites = ({navigation}) => {
+  const user = useStore((state)=>state.user)
+  const [favorites,setFavorites] = useState([])
 
     const [isDeleting,setIsDeleting] =useState(false)
 
+    useLayoutEffect(() => {
+      getFaves()
+
+    },[])
     
+    
+    const getFaves = async ()=>{
+      try {
+        const q =  query(collection(FIRESTORE_DB,"favorites"),where("userid", "==",user.userid));
+        const querySnapshot = await getDocs(q);
+        const favs = []
+        querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        favs.push({...doc.data(),storeid : doc.id})
+        });
+       setFavorites(favs)  
+
+    } catch (error) {
+      console.log(error)
+    }
+    }
+
   return (
     <SafeAreaView style={styles.container}>
       <Header onPress={()=>navigation.goBack()}/>
@@ -33,10 +58,15 @@ const Favorites = ({navigation}) => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
         >
-              <FavItem isDeleting={isDeleting}/>
-              <FavItem isDeleting={isDeleting}/>
-              <FavItem isDeleting={isDeleting}/>
-              <FavItem isDeleting={isDeleting}/>
+          {favorites.length == 0 ? <Text>No Favorites</Text>
+          
+        :
+          favorites.map((f,i)=>(
+            <FavItem key={i} {...f} isDeleting={isDeleting}/>
+          ))
+        }
+             
+           
         </ScrollView>
       
     

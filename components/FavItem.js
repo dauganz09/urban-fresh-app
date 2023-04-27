@@ -4,19 +4,21 @@ import fallback from '../assets/images/fallback.png'
 import Icon from 'react-native-vector-icons/AntDesign'
 import { colors } from '../utils/constants'
 
-const FavItem = ({isDeleting}) => {
+const FavItem = ({isDeleting,store,fav_items}) => {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-            <Text>Seller Name</Text>
+            <Text>{store}</Text>
             <View style={styles.line}></View>
       </View>
       <View style={styles.contentContainer}>
-        <FavProduct isDeleting={isDeleting}/>
-        <FavProduct isDeleting={isDeleting}/>
-        <FavProduct isDeleting={isDeleting}/>
-        <FavProduct isDeleting={isDeleting}/>
-        <FavProduct isDeleting={isDeleting}/>
+        {
+            fav_items.map((fv,i)=>(
+                <FavProduct key={i} {...fv} isDeleting={isDeleting}/>
+            ))
+        }
+      
+       
       </View>
     </View>
   )
@@ -24,12 +26,12 @@ const FavItem = ({isDeleting}) => {
 
 
 
-const FavProduct = ({isDeleting}) =>{
+const FavProduct = ({isDeleting,desc,name,pic,price}) =>{
     const {width} = useWindowDimensions()
     return (
         <View style={[styles.card2,{width : width * .95}]}>
         <Image 
-            source={fallback}
+            source={pic[0] || fallback}
             resizeMode='cover'
             style={{
                 height : 90,
@@ -37,9 +39,9 @@ const FavProduct = ({isDeleting}) =>{
             }}
         />
         <View style={styles.info}>
-                <Text style={styles.name}>Product Name</Text>
-                <Text style={styles.desc}>Desciption asdfasd asdf asdfasdf</Text>
-                <Text style={styles.price}>Php 128 per piece</Text>
+                <Text style={styles.name}>{name}</Text>
+                <Text style={styles.desc}>{desc}</Text>
+                <Text style={styles.price}>Php {price}</Text>
         </View>
         <View style={styles.heart}>
             {
