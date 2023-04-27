@@ -1,4 +1,4 @@
-import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions,Modal } from 'react-native'
+import { Pressable, SafeAreaView, StyleSheet, Text, View,ScrollView,Image,useWindowDimensions,Modal,TouchableOpacity } from 'react-native'
 import React,{useState,useLayoutEffect,useFocusEffect} from 'react'
 import Header from '../../components/Header'
 import { colors } from '../../utils/constants'
@@ -11,7 +11,7 @@ import { collection, query, where,getDocs,getDoc,addDoc, doc, setDoc} from "fire
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import useStore from '../../utils/appStore'
 import { useIsFocused } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native-web'
+
 
 
 const SellerProfile = ({route,navigation}) => {
