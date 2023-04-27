@@ -2,7 +2,7 @@ import { SafeAreaView, StyleSheet, Text, View,Image, TextInput,useWindowDimensio
 import React, { useState,useEffect } from 'react'
 import userplaceholder from '../../assets/images/user.png'
 import { colors } from '../../utils/constants'
-import { collection, query, where,getDocs } from "firebase/firestore";
+import { collection, query, where,getDocs,orderBy } from "firebase/firestore";
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import Header from '../../components/Header'
 import useStore from '../../utils/appStore';
@@ -23,7 +23,7 @@ const TransactionHome = ({navigation}) => {
 
     const getOrders = async  ()=>{
        
-        const q =  query(collection(FIRESTORE_DB, "orders"), where("user_id", "==",user.userid));
+        const q =  query(collection(FIRESTORE_DB, "orders"), where("user_id", "==",user.userid),orderBy("date","desc"));
         
         const querySnapshot = await getDocs(q);
         const orders = []

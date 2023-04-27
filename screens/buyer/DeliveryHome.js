@@ -4,7 +4,7 @@ import { colors } from '../../utils/constants'
 import Header from '../../components/Header'
 import { FIRESTORE_DB } from '../../utils/firebaseConfig'
 import useStore from '../../utils/appStore';
-import { collection, query, where,getDocs } from "firebase/firestore";
+import { collection, query, where,getDocs,orderBy } from "firebase/firestore";
 import Button from '../../components/Button'
 
 
@@ -20,7 +20,7 @@ const DeliveryHome = ({navigation}) => {
 
   const getOrder = async () =>{
 
-    const q =  query(collection(FIRESTORE_DB, "orders"), where("user_id", "==",user.userid));
+    const q =  query(collection(FIRESTORE_DB, "orders"), where("user_id", "==",user.userid),orderBy("date","desc"));
         
     const querySnapshot = await getDocs(q);
     const neworders = []
